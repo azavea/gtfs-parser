@@ -1,10 +1,13 @@
 package com.azavea.gtfs
 
-case class Trip(
-  trip_id: TripId,
-  service_id: ServiceId,
-  route_id: RouteId,
-  trip_headsign: String,
-  stopTimes: Seq[StopTime]
-)
+/**
+ * @param rec trips GTFS record that was used to generate this trip
+ * @param stops list of stop times that have been resolved to specific date and time
+ */
+class Trip(
+  val rec: TripRec,
+  val stops: Seq[StopTime]
+) {
+  def trip_id = rec.trip_id
+}
 

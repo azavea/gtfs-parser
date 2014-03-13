@@ -3,6 +3,7 @@ package com.azavea.gtfs
 import com.github.nscala_time.time.Imports._
 
 package object data {
+
   implicit def String2OptionalLocalTime(s: String):Option[LocalTime] = {
     if (s == ""){
       None
@@ -10,14 +11,6 @@ package object data {
       val chunks = s.split(":").map(_.toInt)
       require(chunks.length == 3)
       Some(new LocalTime(chunks(0), chunks(1), chunks(2)))
-    }
-  }
-
-  implicit def String2OptionalDuration(s: String):Option[Duration] = {
-    if (s == ""){
-      None
-    }else{
-      Some(String2Duration(s))
     }
   }
 

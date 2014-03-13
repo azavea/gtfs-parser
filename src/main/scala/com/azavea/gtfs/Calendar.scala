@@ -1,24 +1,17 @@
 package com.azavea.gtfs
 
 import com.github.nscala_time.time.Imports._
-import com.azavea.gtfs.data.GtfsData
-import data._
 
 /**
  * Maps service availability onto a calendar.
+ * Encapsulates records from calendar and calendar_dates
  */
-class Calendar(data: GtfsData) {
-  val recs: Seq[CalendarRec] =
-    data.getCalendar()
-  val exceptions: Seq[CalendarDateRec] =
-    data.getCalendarDates()
-
+class Calendar(recs: Iterable[CalendarRec], exceptions: Iterable[CalendarDateRec]) {
   /**
-   *
    * @param dt Date of inquiry
    * @return Sequence of ServiceIds that are active on the date
    */
-  def getServiceFor(dt: LocalDate): Set[ServiceId] = {
+  def getServiceFor(dt: LocalDate): Seq[ServiceId] = {
     //Find services that are active in calendar.txt
     val scheduled = recs
       .filter{ r=>
@@ -38,5 +31,5 @@ class Calendar(data: GtfsData) {
       .toSet
 
     (scheduled -- remove) ++ add
-  }
+  }.toSeq
 }

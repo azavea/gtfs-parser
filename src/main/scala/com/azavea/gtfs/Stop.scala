@@ -1,7 +1,7 @@
-package com.azavea.gtfs.data
+package com.azavea.gtfs
 
 case class Stop (
-  stop_id: String,
+  stop_id: StopId,
   stop_name: String,
   stop_desc: String,
   stop_lat: Double,

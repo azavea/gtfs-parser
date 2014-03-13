@@ -1,17 +1,24 @@
 package com.azavea.gtfs
 
 import com.github.nscala_time.time.Imports._
-import com.azavea.gtfs.data.GtfsData
+import com.azavea.gtfs.data.{GtfsFileReader, GtfsData}
 
-//The main interface to the GTFS data
+/**
+ * Transit system specified by GTFS
+ */
 class Gtfs(data: GtfsData) {
-  val cal = new Calendar(data)
-  val tripMaster = new TripMaster(data)
+  val cal = new Calendar(data.calendar, data.calendarDates)
 
   def getTripsOn(dt: LocalDate): Seq[Trip] = {
     for{
       service <- cal.getServiceFor(dt)
-      trip <- tripMaster(dt, service)
+      generator <- data.tripGeneratorsByServiceId(service)
+      trip <- generator(dt)
     } yield trip
-  }.toSeq
+  }
+}
+
+object Gtfs {
+  def fromFile(dir: String): Gtfs =
+    new Gtfs(GtfsData.fromFile(dir))
 }

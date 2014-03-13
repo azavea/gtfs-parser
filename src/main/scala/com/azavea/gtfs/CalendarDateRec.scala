@@ -1,6 +1,5 @@
-package com.azavea.gtfs.data
+package com.azavea.gtfs
 
-import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
 
 /**
