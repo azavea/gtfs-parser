@@ -14,12 +14,12 @@ case class TripGenerator(
         yield
           new Trip(
             rec = trip,
-            stops = trip.stopTimes.map{ _.toStopTime(dt, offset) }
+            stops = trip.stopTimes.view.map{ _.toStopTime(dt, offset) }
           )
       case None =>
         Stream(new Trip(
           rec = trip,
-          stops = trip.stopTimes.toStream.map{ _.toStopTime(date)}
+          stops = trip.stopTimes.view.map{ _.toStopTime(date)}
         ))
     }
   }
