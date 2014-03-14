@@ -21,4 +21,11 @@ case class StopTimeRec(
 
   def toStopTime(dt: LocalDate): StopTime =
     this.toStopTime(dt.toLocalDateTime(LocalTime.Midnight))
+
+  /**
+   * Travel time between departure from this stop and arrival at the other
+   * Warning: This relationship is not symmetric and only valid for stops on the same trip
+   */
+  def timeTo(that: StopTimeRec): Duration =
+    that.arrival_time - this.departure_time
 }
