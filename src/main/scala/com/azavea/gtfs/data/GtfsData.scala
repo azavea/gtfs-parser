@@ -27,7 +27,7 @@ class GtfsData(reader: GtfsReader) {
     tripGenerators.map(g => g.trip.trip_id -> g).toMap
 
   val tripGeneratorsByServiceId: Map[ServiceId, Array[TripGenerator]] =
-    tripGenerators.groupBy(_.trip.service_id)
+    tripGenerators.groupBy(_.trip.service_id).withDefaultValue(Array.empty)
 
   val calendar: Array[CalendarRec] =
     reader.getCalendar.toArray
