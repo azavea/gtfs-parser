@@ -14,6 +14,10 @@ class GtfsTestReader extends GtfsReader{
     Stop("S3", "Stop 1", "First Stop", 10, 20)
   )
 
+  override def getRoutes: Traversable[Route] = List(
+    Route("R1","Route 1", "The one true route", RouteType.Funicular)
+  )
+
   def getTrips = List(
     TripRec("T1","SR1","R1","Go Home",Nil)
   )

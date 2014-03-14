@@ -22,6 +22,24 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   }.toTraversable
 
 
+  override def getRoutes: Traversable[Route] = {
+    for (r <- Csv.fromPath(dir + "/routes.txt"))
+    yield {
+      Route(
+        route_id = r("route_id"),
+        agency_id = r("agency_id"),
+        route_short_name = r("route_short_name"),
+        route_long_name = r("route_long_name"),
+        route_desc = r("route_desc"),
+        route_type = RouteType(r("route_type").toInt),
+        route_url = r("route_url"),
+        route_color = r("route_color"),
+        route_text_color = r("route_text_color")
+      )
+    }
+  }.toTraversable
+
+
   override def getStopTimes = {
     def handleTime(s: String) = if (s == "") null else String2Duration(s)
     for (st <- Csv.fromPath(dir + "/stop_times.txt"))

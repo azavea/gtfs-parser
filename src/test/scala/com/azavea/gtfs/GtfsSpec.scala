@@ -7,8 +7,8 @@ import data._
 
 class GtfsSpec extends FlatSpec with Matchers {
 
-  val data = new GtfsTestReader().toGtfsData
-  val gtfs = new Gtfs(data)
+  val reader = new GtfsTestReader()
+  val gtfs = new Gtfs(reader)
 
   "GTFS" should "be able to find a trip" in {
     val ret = gtfs.getTripsOn(new LocalDate(2013,01,01))

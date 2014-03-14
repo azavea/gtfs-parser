@@ -11,6 +11,9 @@ class GtfsData(reader: GtfsReader) {
   val stops: Map[StopId, Stop] =
     reader.getStops.map(s => s.stop_id -> s).toMap
 
+  val routes: Array[Route] =
+    reader.getRoutes.toArray
+
   val stopTimes: Map[TripId, Seq[StopTimeRec]] =
     reader.getStopTimes.map(clean).toSeq.groupBy(_.trip_id)
 
@@ -23,8 +26,11 @@ class GtfsData(reader: GtfsReader) {
   val tripById: Map[TripId, TripRec] =
     trips.map(t => t.trip_id -> t).toMap
 
-  val tripsByServiceId: Map[ServiceId, Array[TripRec]] =
+  val tripsByService: Map[ServiceId, Array[TripRec]] =
     trips.groupBy(_.service_id).withDefaultValue(Array.empty)
+
+  val tripsByRoute: Map[ServiceId, Array[TripRec]] =
+    trips.groupBy(_.route_id).withDefaultValue(Array.empty)
 
   val calendar: Array[CalendarRec] =
     reader.getCalendar.toArray
@@ -45,9 +51,6 @@ class GtfsData(reader: GtfsReader) {
 }
 
 object GtfsData {
-  def fromFile(dir: String) =
-    new GtfsData(new GtfsFileReader(dir))
-
   implicit val StopTimeInterp = new Interpolatable[StopTimeRec] {
     override def x(t1: StopTimeRec): Double =
       t1.shape_dist_traveled

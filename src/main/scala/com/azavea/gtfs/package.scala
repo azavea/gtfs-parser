@@ -7,4 +7,5 @@ package object gtfs {
   type ServiceId = String
   type TripId = String
   type RouteId = String
+  type AgencyId = String
 }
