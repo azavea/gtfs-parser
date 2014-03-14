@@ -2,6 +2,12 @@ package com.azavea.gtfs
 
 import com.github.nscala_time.time.Imports._
 
+/**
+ * Tuple of Trip and Frequency record,
+ * can be asked to generate a trip or sequence of trips on specific date
+ *
+ * In case where Frequency is None, it will generate a sequence of One.
+ */
 case class TripGenerator(
   trip: TripRec,
   frequency: Option[Frequency]
