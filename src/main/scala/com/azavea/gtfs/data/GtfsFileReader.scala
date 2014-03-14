@@ -54,7 +54,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
 
 
   def getCalendar = {
-    for (c <- Csv.fromPath(dir + "/calendars.txt"))
+    for (c <- Csv.fromPath(dir + "/calendar.txt"))
     yield {
       CalendarRec(
         service_id = c("service_id"),
