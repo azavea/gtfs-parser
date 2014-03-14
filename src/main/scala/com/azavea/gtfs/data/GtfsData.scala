@@ -14,20 +14,17 @@ class GtfsData(reader: GtfsReader) {
   val stopTimes: Map[TripId, Seq[StopTimeRec]] =
     reader.getStopTimes.map(clean).toSeq.groupBy(_.trip_id)
 
-  val trips: Array[TripRec] =
-    reader.getTrips.map(clean).toArray
-
   val frequencies: Map[TripId, Frequency] =
     reader.getFrequencies.map(f => f.trip_id -> f).toMap
 
-  val tripGenerators: Array[TripGenerator] =
-    trips.map{trip => TripGenerator(trip, frequencies.get(trip.trip_id)) }
+  val trips: Array[TripRec] =
+    reader.getTrips.map(clean).toArray
 
-  val tripGeneratorsByTripId: Map[TripId, TripGenerator] =
-    tripGenerators.map(g => g.trip.trip_id -> g).toMap
+  val tripById: Map[TripId, TripRec] =
+    trips.map(t => t.trip_id -> t).toMap
 
-  val tripGeneratorsByServiceId: Map[ServiceId, Array[TripGenerator]] =
-    tripGenerators.groupBy(_.trip.service_id).withDefaultValue(Array.empty)
+  val tripsByServiceId: Map[ServiceId, Array[TripRec]] =
+    trips.groupBy(_.service_id).withDefaultValue(Array.empty)
 
   val calendar: Array[CalendarRec] =
     reader.getCalendar.toArray
@@ -36,9 +33,10 @@ class GtfsData(reader: GtfsReader) {
     reader.getCalendarDates.toArray
 
   def clean(t: TripRec):TripRec = {
+    val f = frequencies.get(t.trip_id)
     val st = stopTimes(t.trip_id).sortBy(_.stop_sequence)
     val s = Interpolator.interpolate(st.toArray)(GtfsData.StopTimeInterp)
-    t.copy(stopTimes = s)
+    t.copy(stopTimes = s, frequency = f)
   }
 
   def clean(st: StopTimeRec): StopTimeRec = {

@@ -12,7 +12,7 @@ class Gtfs(data: GtfsData) {
   def getTripsOn(dt: LocalDate): Seq[Trip] = {
     for{
       service <- cal.getServiceFor(dt)
-      generator <- data.tripGeneratorsByServiceId(service)
+      generator <- data.tripsByServiceId(service)
       trip <- generator(dt)
     } yield trip
   }

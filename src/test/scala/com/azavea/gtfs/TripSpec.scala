@@ -5,7 +5,7 @@ import org.scalatest._
 import data._
 
 
-class TripGeneratorSpec extends FlatSpec with Matchers {
+class TripSpec extends FlatSpec with Matchers {
   val data = new GtfsData(new GtfsTestReader())
 
   def printTrip(trip: Trip){
@@ -16,10 +16,10 @@ class TripGeneratorSpec extends FlatSpec with Matchers {
     }
   }
 
-  "TripGenerator" should "trip" in {
-    val gen = data.tripGeneratorsByTripId("T1")
+  "TripRec" should "generate timed Trips" in {
+    val trip = data.tripById("T1")
 
-    val t = gen(new LocalDate(2013, 2, 2))
+    val t = trip(new LocalDate(2013, 2, 2))
 
     t(0).stops(0).arrival.toLocalTime should equal (new LocalTime(10,00,00))
     //t.foreach(printTrip)
