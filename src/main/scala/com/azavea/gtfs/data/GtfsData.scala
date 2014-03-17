@@ -17,41 +17,37 @@ import java.util
  * @param reader used to read in records during construction
  */
 class GtfsData(reader: GtfsReader) {
-  val stops: mutable.HashMap[StopId, Stop] = mutable.HashMap.empty
-    reader.getStops.foreach(s => stops(s.stop_id) = s)
-  println("parsed stops")
-  val routes: Array[Route] =
-    reader.getRoutes.toArray
-  println("parsed routes")
-  val stopTimes: Array[StopTimeRec] = reader.getStopTimes.toArray
-  println("parsed stop times")
-
+  println("parsing stops")
+  val stops =reader.getStops.map(s => s.stop_id -> s).toMap
+  println("parsing routes")
+  val routes = reader.getRoutes.toSeq
+  println("parsing stop times...")
+  val stopTimes = reader.getStopTimes.toSeq
+  println("grouping stop times...")
   val stopTimesByTrip = stopTimes.groupBy(_.trip_id)
-
+  println("reading freqs...")
   val frequencies: Map[TripId, Frequency] =
     reader.getFrequencies.map(f => f.trip_id -> f).toMap
-  println("parsed freqs")
+  println("parsing trips...")
   val trips: Array[TripRec] =
     reader.getTrips.map(clean).toArray
-  println("parsed trips")
+  println("gouping trips by id ...")
   val tripById: Map[TripId, TripRec] =
     trips.map(t => t.trip_id -> t).toMap
-  println("parsed trips by id")
+  println("grouping trips by service...")
   val tripsByService: Map[ServiceId, Array[TripRec]] =
     trips.groupBy(_.service_id).withDefaultValue(Array.empty)
-  println("parsed trips by service id")
+  println("grouping trips by route...")
   val tripsByRoute: Map[ServiceId, Array[TripRec]] =
     trips.groupBy(_.route_id).withDefaultValue(Array.empty)
-  println("parsed trips by route")
+  println("parsing calendar...")
   val calendar: Array[CalendarRec] =
     reader.getCalendar.toArray
-  println("parsed calendar")
+  println("parsing calendar dates ...")
   val calendarDates: Array[CalendarDateRec] =
     reader.getCalendarDates.toArray
-  println("parsed calendar dates")
 
   def clean(t: TripRec):TripRec = {
-    println("Clean Trip: " + t.trip_id)
     val f = frequencies.get(t.trip_id)
     val st = stopTimesByTrip(t.trip_id).sortBy(_.stop_sequence)
     val s = Interpolator.interpolate(st.toArray)(GtfsData.StopTimeInterp)
