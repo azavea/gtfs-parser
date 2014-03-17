@@ -27,8 +27,8 @@ class GtfsTestReader extends GtfsReader{
 
   def getStopTimes = List(
     StopTimeRec("S1","T1", 1, 0.seconds, 1.minute),
-    StopTimeRec("S2","T1", 1, 10.minutes, 11.minutes),
-    StopTimeRec("S3","T1", 1, 15.minutes, 16.minutes)
+    StopTimeRec("S2","T1", 2, 10.minutes, 11.minutes),
+    StopTimeRec("S3","T1", 3, 15.minutes, 16.minutes)
   )
 
   def getCalendar = List(
