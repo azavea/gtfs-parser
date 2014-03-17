@@ -23,16 +23,11 @@ class GtfsData(reader: GtfsReader) {
   val routes: Array[Route] =
     reader.getRoutes.toArray
   println("parsed routes")
-
-
-
-  val shit = new mutable.ArrayBuffer[StopTimeRec](5000000)
-  println("no ok!")
-  reader.getStopTimes.foreach(s => shit += s)
-  println("ok?")
-  val stopTimes: Array[StopTimeRec] = shit.toArray
-
+  val stopTimes: Array[StopTimeRec] = reader.getStopTimes.toArray
   println("parsed stop times")
+
+  val stopTimesByTrip = stopTimes.groupBy(_.trip_id)
+
   val frequencies: Map[TripId, Frequency] =
     reader.getFrequencies.map(f => f.trip_id -> f).toMap
   println("parsed freqs")
@@ -58,7 +53,7 @@ class GtfsData(reader: GtfsReader) {
   def clean(t: TripRec):TripRec = {
     println("Clean Trip: " + t.trip_id)
     val f = frequencies.get(t.trip_id)
-    val st = stopTimes.filter(_.trip_id == t.trip_id).sortBy(_.stop_sequence)
+    val st = stopTimesByTrip(t.trip_id).sortBy(_.stop_sequence)
     val s = Interpolator.interpolate(st.toArray)(GtfsData.StopTimeInterp)
     t.copy(stopTimes = s, frequency = f)
   }
