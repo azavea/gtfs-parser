@@ -59,6 +59,7 @@ class Csv(private val reader:BufferedReader) extends Iterator[Map[String,String]
   }
 
   def parseValues(line:String) = {
+
     line.split(',')
       .map(unquote(_).trim
       .replace("\"\"", "\""))

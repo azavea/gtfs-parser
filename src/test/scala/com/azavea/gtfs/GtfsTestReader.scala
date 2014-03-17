@@ -8,13 +8,16 @@ import com.github.nscala_time.time.Imports._
  * Date: 3/13/14
  */
 class GtfsTestReader extends GtfsReader{
+  implicit def seqToIterator[T](seq: Traversable[T]): Iterator[T] =
+    seq.toIterator
+
   def getStops = List(
     Stop("S1", "Stop 1", "First Stop", 0, 0),
     Stop("S2", "Stop 1", "First Stop", 10, 10),
     Stop("S3", "Stop 1", "First Stop", 10, 20)
   )
 
-  override def getRoutes: Traversable[Route] = List(
+  override def getRoutes = List(
     Route("R1","Route 1", "The one true route", RouteType.Funicular)
   )
 
