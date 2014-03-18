@@ -30,11 +30,11 @@ class TripSpec extends FlatSpec with Matchers {
       StopTimeRec("S3","T2", 1, 1.minute + 15.minutes, 1.minute + 16.minutes)
     )
   )
-  val trip3 = TripRec("T2","SR1","R1","Go Home Again",
+  val trip3 = TripRec("T3","SR1","R1","Go Later",
     List(
-      StopTimeRec("S1","T2", 1, 1.minute + 0.seconds, 1.minute + 1.minute),
-      StopTimeRec("S2","T2", 1, 1.minute + 10.minutes, 1.hour + 11.minutes), //long break here
-      StopTimeRec("S3","T2", 1, 1.hour + 15.minutes, 1.hour + 16.minutes)
+      StopTimeRec("S1","T3", 1, 1.minute + 0.seconds, 1.minute + 1.minute),
+      StopTimeRec("S2","T3", 1, 1.minute + 10.minutes, 1.hour + 11.minutes), //long break here
+      StopTimeRec("S3","T3", 1, 1.hour + 15.minutes, 1.hour + 16.minutes)
     )
   )
 
@@ -57,5 +57,14 @@ class TripSpec extends FlatSpec with Matchers {
     big should contain (trip1)
     big should contain (trip2)
     small should contain (trip3)
+  }
+
+  it should "know how to compress" in {
+
+    val ret = TripRec.compress( trip1 :: trip2 :: trip3 :: Nil)
+
+    ret.foreach(println)
+
+
   }
 }

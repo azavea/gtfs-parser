@@ -3,6 +3,8 @@ package com.azavea.gtfs
 import com.github.nscala_time.time.Imports._
 import scala.Some
 import scala.collection.mutable
+import scala.collection.mutable.{ListBuffer, ArrayBuffer}
+import com.azavea.gtfs.util.{Run, RunLength}
 
 case class TripRec(
   trip_id: TripId,
@@ -29,6 +31,7 @@ case class TripRec(
         ))
     }
   }
+
 
   /**
    * In order to be sameish two trips need to:
@@ -58,12 +61,13 @@ case class TripRec(
 }
 
 object TripRec {
-  def bin(trips: Seq[TripRec]) = {
-    val bins = mutable.Set(mutable.Set(trips.head))
+  def bin(trips: Seq[TripRec]): Array[Array[TripRec]] = {
+    val bins = ArrayBuffer(ArrayBuffer(trips.head))
 
     //go where you belong
     def belongs(t: TripRec): Boolean = {
       for (b <- bins) {
+        //sameishnes is transitive, so this works
         if (t sameish b.head) {
           b += t
           return true
@@ -74,10 +78,56 @@ object TripRec {
 
     for (t <- trips.tail) {
       if (! belongs(t)) {
-        bins += mutable.Set(t) //You're in a class of you own!
+        bins += ArrayBuffer(t) //You're in a class of you own!
       }
     }
 
-    bins
+    bins.map(_.toArray).toArray
+  }
+
+  /**
+   * Expresses trips with frequency when they are repeated
+   * @param trips
+   * @param threshold Number of trips repated with predictable headway before compressing
+   * @return
+   */
+  def compress(trips: Seq[TripRec], threshold: Int = 2): Array[TripRec] = {
+   println("Binning trips...")
+   var compressed:Long = 0
+
+   val bins = bin(trips)
+   val ret = ArrayBuffer.empty[TripRec]
+    for (bin <- bins.map(_.sortBy(_.stopTimes.head.arrival_time))) {
+      if (bin.length < threshold) {
+        ret ++= bin
+      }else{
+        val headways =
+        {
+          for( Array(a,b) <- bin.sliding(2) )
+          yield b.stopTimes.head.arrival_time - a.stopTimes.head.arrival_time
+        }.toList
+
+        //TODO: this can be removed
+        require(bin.length == headways.length + 1, "I failed at counting")
+
+        for (rl <- RunLength((headways.head :: headways) zip bin){(c1,c2) => c1._1 == c2._1}) {
+          rl match {
+            case Run(1, List((headway, trip))) =>
+              ret += trip
+            case Run(x, list) =>
+              val min_time = list.map(_._2.stopTimes.head.arrival_time).min
+              val max_time = list.map(_._2.stopTimes.head.arrival_time).max
+              val model = list.head._2
+              val headway = list.head._1
+              val newTrip = model.copy(trip_id = model.trip_id + "+", frequency = Some(Frequency(model.trip_id, min_time, max_time, headway)))
+              ret += newTrip
+
+              compressed += list.length - 1
+          }
+        }
+      }
+    }
+    println("Total Compressed: " + compressed)
+    ret.toArray
   }
 }
