@@ -35,7 +35,6 @@ class CsvParser[T](
 }
 
 object CsvParser {
-  //val lineRegex = """\"?(,|$)(?=(([^\"]*\"){2})*[^\"]*$) *\"?""".r
   val lineRegex = """(?:^|,)"?((?<=")[^"]*|[^,"]*)"?(?=,|$)""".r
   def fromPath[T](path:String) = {
     new CsvParser(
