@@ -15,11 +15,11 @@ package object data {
   }
 
   implicit def String2Duration(s: String):Duration = {
-    val chunks = s.split(":").map(_.toInt)
-    require(chunks.length == 3)
-    chunks(0).hours + chunks(1).minutes + chunks(2).seconds
+      if (s == "") return null
+      val chunks = s.split(":").map(_.toInt)
+      require(chunks.length == 3)
+      chunks(0).hours + chunks(1).minutes + chunks(2).seconds
   }
-
 
   val dateRegex = """(\d{4})(\d{2})(\d{2})""".r
   implicit def String2LocalDate(s: String):LocalDate = {

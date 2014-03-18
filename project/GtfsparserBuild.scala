@@ -16,7 +16,7 @@ object GtfsparserBuild extends Build {
         Seq(
           "org.scalatest" % "scalatest_2.10" % "2.1.0" % "test",
           "com.github.nscala-time" %% "nscala-time" % "0.8.0",
-          "org.scalaz" %% "scalaz-core" % "7.0.6"
+          "org.scala-saddle" %% "saddle-core" % "1.3.+"
         )
     )
   )
