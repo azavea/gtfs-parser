@@ -20,9 +20,9 @@ class GtfsData(reader: GtfsReader) {
   println("parsing stops")
   val stops =reader.getStops.map(s => s.stop_id -> s).toMap
   println("parsing routes")
-  val routes = reader.getRoutes.toSeq
+  val routes = reader.getRoutes.toArray
   println("parsing stop times...")
-  val stopTimes = reader.getStopTimes.toSeq
+  val stopTimes = reader.getStopTimes.toArray
   println("grouping stop times...")
   val stopTimesByTrip = stopTimes.groupBy(_.trip_id)
   println("reading freqs...")
