@@ -107,9 +107,6 @@ object TripRec {
           yield b.stopTimes.head.arrival_time - a.stopTimes.head.arrival_time
         }.toList
 
-        //TODO: this can be removed
-        require(bin.length == headways.length + 1, "I failed at counting")
-
         for (rl <- RunLength((headways.head :: headways) zip bin){(c1,c2) => c1._1 == c2._1}) {
           rl match {
             case Run(1, List((headway, trip))) =>
