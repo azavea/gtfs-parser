@@ -13,6 +13,6 @@ class RunLengthSpec extends FlatSpec with Matchers {
       Run(1,List(4)),
       Run(2,List(2,2))
     )
-    RunLength(list) should equal (expected)
+    RunLength(list)((x,y) => x==y) should equal (expected)
   }
 }
