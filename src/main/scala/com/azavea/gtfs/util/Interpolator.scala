@@ -1,5 +1,4 @@
-package com.azavea.gtfs
-
+package com.azavea.gtfs.util
 
 /**
  * Typeclass for Interpolator

@@ -3,6 +3,7 @@ package com.azavea.gtfs
 import com.github.nscala_time.time.Imports._
 import org.scalatest._
 import data._
+import com.azavea.gtfs.util.{Interpolator, Interpolatable}
 
 class InterpolatorSpec extends FlatSpec with Matchers {
   implicit val OverkillInterp = new Interpolatable[(Int, Int)] {

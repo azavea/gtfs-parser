@@ -11,6 +11,7 @@ import com.azavea.gtfs.StopTimeRec
 import com.azavea.gtfs.CalendarRec
 import com.azavea.gtfs.Frequency
 import java.util
+import com.azavea.gtfs.util.{Interpolator, Interpolatable}
 
 /**
  * Contains cleaned and indexed GTFS data
