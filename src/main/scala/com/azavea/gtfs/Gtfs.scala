@@ -3,6 +3,8 @@ package com.azavea.gtfs
 import com.github.nscala_time.time.Imports._
 import com.azavea.gtfs.data.{GtfsReader, GtfsFileReader, GtfsData}
 import com.azavea.gtfs.RouteType.RouteType
+import scala.collection.immutable.NumericRange
+import com.github.nscala_time.time.Imports
 
 /**
  * Transit system specified by GTFS
@@ -19,16 +21,22 @@ class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
   }
 
   /** Maximum number of stops in a trip in the route */
-  def maxStopsByRoute(route: RouteId): Int =
+  def maxStopsForRoute(route: RouteId):  Int =
     tripsByRoute(route).maxBy(_.stopTimes.length).stopTimes.length
 
-  def maxStopsByMode(mode: RouteType): Seq[(RouteType, Int)] =
+  def maxStopsByRoute(): Seq[(RouteId, Int)] =
+    routes.map(r => r.route_id -> maxStopsForRoute(r.route_id))
+
+  def maxStopsByMode(): Seq[(RouteType, Int)] = {
     routes
       .groupBy(_.route_type)
       .mapValues{ routes =>
-        routes.map(r => maxStopsByRoute(r.route_id)).max
+        routes.map(r => maxStopsForRoute(r.route_id)).max
       }
       .toSeq
+  }
+
+  def tripsForPeriod(from: LocalDate, to: LocalDate): Seq[Trip] = ???
 }
 
 object Gtfs {
