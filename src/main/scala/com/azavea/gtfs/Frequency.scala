@@ -11,8 +11,8 @@ import com.github.nscala_time.time.Imports._
  */
 case class Frequency (
   trip_id: String,
-  start_time: Duration,
-  end_time: Duration,
+  start_time: Period,
+  end_time: Period,
   headway: Duration
 ) {
   def toStream(dt: LocalDate): Stream[LocalDateTime] = {

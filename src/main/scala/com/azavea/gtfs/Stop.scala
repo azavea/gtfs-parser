@@ -3,7 +3,7 @@ package com.azavea.gtfs
 import math._
 
 case class Stop (
-  stop_id: StopId,
+  id: String,
   stop_name: String,
   stop_desc: String,
   stop_lat: Double,

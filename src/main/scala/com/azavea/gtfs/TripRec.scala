@@ -7,10 +7,10 @@ import scala.collection.mutable.{ListBuffer, ArrayBuffer}
 import com.azavea.gtfs.util.{Run, RunLength}
 
 case class TripRec(
-  trip_id: TripId,
+  id: String,
   service_id: ServiceId,
   route_id: RouteId,
-  trip_headsign: String,
+  trip_headsign: Option[String],
   stopTimes: Seq[StopTimeRec],
   frequency: Option[Frequency] = None
 ) {
@@ -97,7 +97,7 @@ object TripRec {
 
    val bins = bin(trips)
    val ret = ArrayBuffer.empty[TripRec]
-    for (bin <- bins.map(_.sortBy(_.stopTimes.head.arrival_time))) {
+    for (bin <- bins.map(_.sortBy(_.stopTimes.head.arrival_time.millis))) {
       if (bin.length < threshold) {
         ret ++= bin
       }else{
@@ -112,11 +112,12 @@ object TripRec {
             case Run(1, List((headway, trip))) =>
               ret += trip
             case Run(x, list) =>
-              val min_time = list.map(_._2.stopTimes.head.arrival_time).min
-              val max_time = list.map(_._2.stopTimes.head.arrival_time).max
+              val min_time = list.map(_._2.stopTimes.head.arrival_time.millis).min
+              val max_time = list.map(_._2.stopTimes.head.arrival_time.millis).max
               val model = list.head._2
               val headway = list.head._1
-              val newTrip = model.copy(trip_id = model.trip_id + "+", frequency = Some(Frequency(model.trip_id, min_time, max_time, headway)))
+              val newTrip = model.copy(id = model.id + "+", frequency =
+                Some(Frequency(model.id, Period.millis(min_time), Period.millis(max_time), headway.toStandardDuration)))
               ret += newTrip
 
               compressed += list.length - 1

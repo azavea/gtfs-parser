@@ -1,6 +1,7 @@
 package com.azavea.gtfs
 
 import com.github.nscala_time.time.Imports._
+import org.joda.time.format.PeriodFormatterBuilder
 
 package object data {
 
@@ -14,11 +15,15 @@ package object data {
     }
   }
 
-  implicit def String2Duration(s: String):Duration = {
+  val periodFormatter = new PeriodFormatterBuilder()
+    .appendHours().appendSuffix(":")
+    .appendMinutes().appendSuffix(":")
+    .appendSeconds()
+    .toFormatter
+
+  implicit def String2Duration(s: String):Period = {
       if (s == "") return null
-      val chunks = s.split(":").map(_.toInt)
-      require(chunks.length == 3)
-      chunks(0).hours + chunks(1).minutes + chunks(2).seconds
+      periodFormatter.parsePeriod(s)
   }
 
   val dateRegex = """(\d{4})(\d{2})(\d{2})""".r

@@ -16,21 +16,21 @@ class TripSpec extends FlatSpec with Matchers {
     }
   }
 
-  val trip1 = TripRec("T1","SR1","R1","Go Home",
+  val trip1 = TripRec("T1","SR1","R1",None,
     List(
       StopTimeRec("S1","T1", 1, 0.seconds, 1.minute),
       StopTimeRec("S2","T1", 1, 10.minutes, 11.minutes),
       StopTimeRec("S3","T1", 1, 15.minutes, 16.minutes)
     )
   )
-  val trip2 = TripRec("T2","SR1","R1","Go Home Again",
+  val trip2 = TripRec("T2","SR1","R1",None,
     List(
       StopTimeRec("S1","T2", 1, 1.minute + 0.seconds, 1.minute + 1.minute),
       StopTimeRec("S2","T2", 1, 1.minute + 10.minutes, 1.minute + 11.minutes),
       StopTimeRec("S3","T2", 1, 1.minute + 15.minutes, 1.minute + 16.minutes)
     )
   )
-  val trip3 = TripRec("T3","SR1","R1","Go Later",
+  val trip3 = TripRec("T3","SR1","R1",None,
     List(
       StopTimeRec("S1","T3", 1, 1.minute + 0.seconds, 1.minute + 1.minute),
       StopTimeRec("S2","T3", 1, 1.minute + 10.minutes, 1.hour + 11.minutes), //long break here

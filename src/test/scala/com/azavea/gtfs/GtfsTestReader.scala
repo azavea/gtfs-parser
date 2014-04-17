@@ -22,7 +22,7 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getTrips = List(
-    TripRec("T1","SR1","R1","Go Home",Nil)
+    TripRec("T1","SR1","R1",None ,Nil)
   )
 
   def getStopTimes = List(

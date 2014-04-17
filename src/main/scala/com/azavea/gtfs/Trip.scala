@@ -8,6 +8,6 @@ class Trip(
   val rec: TripRec,
   val stops: Seq[StopTime]
 ) {
-  def trip_id = rec.trip_id
+  def trip_id = rec.id
 }
 

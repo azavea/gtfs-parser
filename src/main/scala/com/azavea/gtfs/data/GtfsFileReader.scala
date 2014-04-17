@@ -13,7 +13,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
       Stop(
-        stop_id = s("stop_id"),
+        id = s("stop_id"),
         stop_name = s("stop_name"),
         stop_desc = s("stop_desc"),
         stop_lat = s("stop_lat").toDouble,
@@ -50,8 +50,8 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         stop_sequence = s("stop_sequence").toInt,
         arrival_time = s("arrival_time"),
         departure_time = s("departure_time"),
-        shape_dist_traveled = s("shape_dist_traveled").toDouble,
-        stop = null
+        shape_dist_traveled = s("shape_dist_traveled").toDouble
+        //TODO -- stop = null
       )
     }
   }
@@ -61,10 +61,10 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (t <- CsvParser.fromPath(dir + "/trips.txt"))
     yield {
       TripRec(
-        trip_id = t("trip_id"),
+        id = t("trip_id"),
         service_id = t("service_id"),
         route_id = t("route_id"),
-        trip_headsign = t("trip_headsign"),
+        trip_headsign = (if (t("trip_headsign") == "") None else Some(t("trip_headsign"))),
         stopTimes = Nil
       )
     }

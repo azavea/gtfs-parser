@@ -19,7 +19,7 @@ import com.azavea.gtfs.util.{Interpolator, Interpolatable}
  */
 class GtfsData(reader: GtfsReader) {
   println("parsing stops")
-  val stops =reader.getStops.map(s => s.stop_id -> s).toMap
+  val stops =reader.getStops.map(s => s.id -> s).toMap
   println("parsing routes")
   val routes = reader.getRoutes.toArray
   println("parsing stop times...")
@@ -34,7 +34,7 @@ class GtfsData(reader: GtfsReader) {
     reader.getTrips.map(clean).toArray
   println("gouping trips by id ...")
   val tripById: Map[TripId, TripRec] =
-    trips.map(t => t.trip_id -> t).toMap
+    trips.map(t => t.id -> t).toMap
   println("grouping trips by service...")
   val tripsByService: Map[ServiceId, Array[TripRec]] =
     trips.groupBy(_.service_id).withDefaultValue(Array.empty)
@@ -49,15 +49,16 @@ class GtfsData(reader: GtfsReader) {
     reader.getCalendarDates.toArray
 
   def clean(t: TripRec):TripRec = {
-    val f = frequencies.get(t.trip_id)
-    val st = stopTimesByTrip(t.trip_id).sortBy(_.stop_sequence)
+    val f = frequencies.get(t.id)
+    val st = stopTimesByTrip(t.id).sortBy(_.stop_sequence)
     val s = Interpolator.interpolate(st.toArray)(GtfsData.StopTimeInterp)
     t.copy(stopTimes = s, frequency = f)
   }
 
   def clean(st: StopTimeRec): StopTimeRec = {
     println(st.stop_id)
-    st.copy(stop = stops(st.stop_id))
+    //TODO - st.copy(stop = stops(st.stop_id))
+    st
   }
 }
 
