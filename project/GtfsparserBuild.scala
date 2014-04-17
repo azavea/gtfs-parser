@@ -14,8 +14,15 @@ object GtfsparserBuild extends Build {
       // add other settings here
       libraryDependencies ++=
         Seq(
+          "org.scalaz" %% "scalaz-core" % "7.0.6",
           "org.scalatest" % "scalatest_2.10" % "2.1.0" % "test",
-          "com.github.nscala-time" %% "nscala-time" % "0.8.0"
+          "com.github.nscala-time" %% "nscala-time" % "0.8.0",
+          "com.typesafe.slick" %% "slick" % "2.0.1",
+          "org.slf4j" % "slf4j-nop" % "1.6.4",
+          "postgresql" % "postgresql" % "9.1-901.jdbc4",
+
+          "org.joda" % "joda-convert" % "1.5",
+          "com.github.tototoshi" %% "slick-joda-mapper" % "1.0.1"
           // "org.scala-saddle" %% "saddle-core" % "1.3.+"
         )
     )
