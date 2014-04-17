@@ -15,7 +15,7 @@ trait ServiceComponent {this: Profile =>
   week: Array[Boolean]
    */
   class Calendars(tag: Tag)
-    extends Table[(String, LocalDate, LocalDate, Int, Int, Int, Int, Int, Int, Int)](tag, "gtfs_calendar")
+    extends Table[CalendarRec](tag, "gtfs_calendar")
   {
     def id = column[String]("service_id", O.PrimaryKey)
     def start_date = column[LocalDate]("start_date")
@@ -28,15 +28,37 @@ trait ServiceComponent {this: Profile =>
     def saturday = column[Int]("saturday")
     def sunday = column[Int]("sunday")
 
-    def * = (id, start_date, end_date, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    def * = (id, start_date, end_date, monday, tuesday, wednesday, thursday, friday, saturday, sunday) <>
+      (applyCalendar.tupled, unapplyCalendar)
+
+    val applyCalendar: (String, LocalDate, LocalDate, Int, Int, Int, Int, Int, Int, Int) => CalendarRec =
+      { case (sid, from, to, mon, tue, wed, th, fri, sat, sun) =>
+        CalendarRec(sid, from, to, Array[Int](mon, tue, wed,th, fri, sat, sun).map(_ == 1))
+      }
+
+    val unapplyCalendar: CalendarRec => Option[(String, LocalDate, LocalDate, Int, Int, Int, Int, Int, Int, Int)] =
+      { c =>
+          val w = c.week.map{ if (_) 1 else 0 }
+          Some((c.service_id, c.start_date, c.end_date, w(0), w(1), w(2), w(3), w(4), w(5), w(6)))
+      }
+
   }
 
-  class CalendarDates(tag: Tag) extends Table[(String, LocalDate, Int)](tag, "gtfs_calendar_dates") {
+  class CalendarDates(tag: Tag) extends Table[CalendarDateRec](tag, "gtfs_calendar_dates") {
     def id = column[String]("service_id")
     def date = column[LocalDate]("date")
     def exception_type = column[Int]("exception_type")
 
-    def * = (id, date, exception_type)
+    def * = (id, date, exception_type) <> (applyDates.tupled, unapplyDates)
+
+    val applyDates: (String, LocalDate, Int) => CalendarDateRec =
+      { case (id, date, t) => CalendarDateRec(id, date, if (t==1) 'Add else 'Remove) }
+
+    val unapplyDates: CalendarDateRec => Option[(String, LocalDate, Int)] =
+      { d => Some((d.service_id, d.date, if (d.exception == 'Add) 1 else 2))
+
+      }
+
   }
 
   object service {
@@ -46,28 +68,9 @@ trait ServiceComponent {this: Profile =>
     //So this is shitty to get here are some other useful subsets
     // - service calendar between dates
     // - service calendar for a single service (lol?)
-
     def getFullService(implicit session: Session): Calendar = {
-      val weeks =
-        queryCalendars.list
-        .map{ case (sid, from, to, mon, tue, wed, th, fri, sat, sun) =>
-          CalendarRec(sid, from, to, Array(mon, tue, wed,th, fri, sat, sun).map(_ == 1))
-        }
-
-      val exceptions =
-        queryCalendarDates.list
-        .map{ case (sid, date, ex) =>
-          CalendarDateRec(sid, date, if (ex == 1) 'Add else 'Remove)
-        }
-
-      new Calendar(weeks, exceptions)
+      new Calendar(queryCalendars.list, queryCalendarDates.list)
     }
-
-
-
-
-
-
   }
 }
 

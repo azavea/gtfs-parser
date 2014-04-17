@@ -3,7 +3,7 @@ package com.azavea.gtfs
 import com.github.nscala_time.time.Imports._
 
 case class CalendarRec(
-  service_id: ServiceId,
+  service_id: String,
   start_date: LocalDate,
   end_date: LocalDate,
   week: Array[Boolean]
