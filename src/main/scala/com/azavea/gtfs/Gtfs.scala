@@ -25,13 +25,13 @@ class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
     tripsByRoute(route).maxBy(_.stopTimes.length).stopTimes.length
 
   def maxStopsByRoute(): Seq[(RouteId, Int)] =
-    routes.map(r => r.route_id -> maxStopsForRoute(r.route_id))
+    routes.map(r => r.id -> maxStopsForRoute(r.id))
 
   def maxStopsByMode(): Seq[(RouteType, Int)] = {
     routes
       .groupBy(_.route_type)
       .mapValues{ routes =>
-        routes.map(r => maxStopsForRoute(r.route_id)).max
+        routes.map(r => maxStopsForRoute(r.id)).max
       }
       .toSeq
   }

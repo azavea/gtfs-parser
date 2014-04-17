@@ -7,3 +7,4 @@ class DAO(override val profile: JdbcProfile, override val jodaSupport: GenericJo
   extends Profile
   with StopsComponent
   with TripsComponent
+  with RoutesComponent

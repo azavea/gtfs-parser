@@ -9,6 +9,12 @@ import com.github.nscala_time.time.Imports._
  * @param dir directory containing the files
  */
 class GtfsFileReader(dir:String) extends GtfsReader {
+  //TODO - This is a weird hack, really the parser should return Option[String] and required fields should just .get
+  implicit class RichString(s: String){
+    def asOpt = if (s == "") None else Some(s)
+  }
+
+
   override def getStops = {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
@@ -27,15 +33,15 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (r <- CsvParser.fromPath(dir + "/routes.txt"))
     yield {
       Route(
-        route_id = r("route_id"),
-        agency_id = r("agency_id"),
+        id = r("route_id"),
+        agency_id = r("agency_id").asOpt,
         route_short_name = r("route_short_name"),
         route_long_name = r("route_long_name"),
-        route_desc = r("route_desc"),
+        route_desc = r("route_desc").asOpt,
         route_type = RouteType(r("route_type").toInt),
-        route_url = r("route_url"),
-        route_color = r("route_color"),
-        route_text_color = r("route_text_color")
+        route_url = r("route_url").asOpt,
+        route_color = r("route_color").asOpt,
+        route_text_color = r("route_text_color").asOpt
       )
     }
   }
@@ -64,7 +70,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         id = t("trip_id"),
         service_id = t("service_id"),
         route_id = t("route_id"),
-        trip_headsign = (if (t("trip_headsign") == "") None else Some(t("trip_headsign"))),
+        trip_headsign = t("trip_headsign").asOpt,
         stopTimes = Nil
       )
     }

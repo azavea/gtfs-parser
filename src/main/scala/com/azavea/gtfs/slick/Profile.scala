@@ -4,6 +4,8 @@ import scala.slick.driver.JdbcProfile
 import com.github.tototoshi.slick.GenericJodaSupport
 import com.github.nscala_time.time.Imports._
 import org.joda.time.format.PeriodFormatterBuilder
+import com.azavea.gtfs.RouteType
+import com.azavea.gtfs.RouteType.RouteType
 
 trait Profile {
   val profile: JdbcProfile
@@ -25,10 +27,16 @@ trait Profile {
     )
   }
 
-  implicit val durationColumntype =
+  implicit val durationColumnType =
     MappedColumnType.base[Duration, Int](
-    { duration => duration.getStandardSeconds.toInt },
-    { int => int.seconds }
-  )
+      { duration => duration.getStandardSeconds.toInt },
+      { int => int.seconds }
+    )
+
+  implicit val routeTypeColumnType =
+    MappedColumnType.base[RouteType, Int](
+      { rt => rt.id },
+      { int => RouteType(int) }
+    )
 
 }
