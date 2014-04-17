@@ -6,7 +6,7 @@ import com.github.nscala_time.time.Imports._
  * Maps service availability onto a calendar.
  * Encapsulates records from calendar and calendar_dates
  */
-class Calendar(recs: Iterable[CalendarRec], exceptions: Iterable[CalendarDateRec]) {
+class Calendar(recs: Seq[CalendarRec], exceptions: Seq[CalendarDateRec]) {
   /**
    * @param dt Date of inquiry
    * @return Sequence of ServiceIds that are active on the date
