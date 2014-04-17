@@ -10,7 +10,7 @@ import com.github.nscala_time.time.Imports
  * Transit system specified by GTFS
  */
 class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
-  val cal = new Calendar(calendar, calendarDates)
+  val cal = new Service(calendar, calendarDates)
 
   def getTripsOn(dt: LocalDate): Seq[Trip] = {
     for{

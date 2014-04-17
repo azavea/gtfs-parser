@@ -8,8 +8,8 @@ trait GtfsReader {
   def getTrips: Iterator[TripRec]
   def getRoutes: Iterator[Route]
   def getFrequencies: Iterator[Frequency]
-  def getCalendar: Iterator[CalendarRec]
-  def getCalendarDates: Iterator[CalendarDateRec]
+  def getCalendar: Iterator[ServiceCalendar]
+  def getCalendarDates: Iterator[ServiceException]
 
   def toGtfsData:GtfsData = new GtfsData(this)
 }

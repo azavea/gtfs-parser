@@ -7,7 +7,7 @@ import data._
 
 class CalendarSpec extends FlatSpec with Matchers {
   val data = new GtfsTestReader().toGtfsData
-  val cal = new Calendar(data.calendar, data.calendarDates)
+  val cal = new Service(data.calendar, data.calendarDates)
 
   "Calendar" should "return active services" in {
     val sunday = new LocalDate(2013,1,6)

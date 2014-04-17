@@ -3,12 +3,12 @@ package com.azavea.gtfs.data
 import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
 import scala.collection.mutable
-import com.azavea.gtfs.CalendarDateRec
+import com.azavea.gtfs.ServiceException
 import com.azavea.gtfs.Stop
 import com.azavea.gtfs.TripRec
 import com.azavea.gtfs.Route
 import com.azavea.gtfs.StopTimeRec
-import com.azavea.gtfs.CalendarRec
+import com.azavea.gtfs.ServiceCalendar
 import com.azavea.gtfs.Frequency
 import java.util
 import com.azavea.gtfs.util.{Interpolator, Interpolatable}
@@ -42,10 +42,10 @@ class GtfsData(reader: GtfsReader) {
   val tripsByRoute: Map[ServiceId, Array[TripRec]] =
     trips.groupBy(_.route_id).withDefaultValue(Array.empty)
   println("parsing calendar...")
-  val calendar: Array[CalendarRec] =
+  val calendar: Array[ServiceCalendar] =
     reader.getCalendar.toArray
   println("parsing calendar dates ...")
-  val calendarDates: Array[CalendarDateRec] =
+  val calendarDates: Array[ServiceException] =
     reader.getCalendarDates.toArray
 
   def clean(t: TripRec):TripRec = {

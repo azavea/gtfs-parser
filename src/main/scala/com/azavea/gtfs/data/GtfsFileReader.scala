@@ -80,7 +80,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   def getCalendar = {
     for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
     yield {
-      CalendarRec(
+      ServiceCalendar(
         service_id = c("service_id"),
         start_date = c("start_date"),
         end_date = c("end_date"),
@@ -101,7 +101,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   def getCalendarDates = {
     for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
     yield {
-      CalendarDateRec(
+      ServiceException(
         service_id = c("service_id"),
         date = c("date"),
         exception = if (c("exception_type") == "1") 'Add else 'Remove
