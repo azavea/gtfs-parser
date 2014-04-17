@@ -12,7 +12,7 @@ import com.github.nscala_time.time.Imports
 class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
   val cal = new Service(calendar, calendarDates)
 
-  def getTripsOn(dt: LocalDate): Seq[Trip] = {
+  def getTripsOn(dt: LocalDate): Seq[ScheduledTrip] = {
     for{
       service <- cal.getServiceFor(dt)
       generator <- tripsByService(service)
@@ -36,7 +36,7 @@ class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
       .toSeq
   }
 
-  def tripsForPeriod(from: LocalDate, to: LocalDate): Seq[Trip] = ???
+  def tripsForPeriod(from: LocalDate, to: LocalDate): Seq[ScheduledTrip] = ???
 }
 
 object Gtfs {

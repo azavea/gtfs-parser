@@ -15,7 +15,7 @@ trait TripsComponent {this: Profile =>
     def * = (id, service_id, route_id, trip_headsign)
   }
 
-  class StopTimes(tag: Tag) extends Table[StopTimeRec](tag, "gtfs_stop_times") {
+  class StopTimes(tag: Tag) extends Table[StopTime](tag, "gtfs_stop_times") {
     def stop_id = column[String]("stop_id")
     def trip_id = column[String]("trip_id")
     def stop_sequence = column[Int]("stop_sequence")
@@ -23,7 +23,7 @@ trait TripsComponent {this: Profile =>
     def departure_time = column[Period]("departure_time")
     def shape_dist_traveled = column[Double]("shape_dist_traveled")
     def * = (stop_id, trip_id, stop_sequence, arrival_time, departure_time, shape_dist_traveled) <>
-      (StopTimeRec.tupled, StopTimeRec.unapply)
+      (StopTime.tupled, StopTime.unapply)
   }
 
   class Frequencies(tag: Tag) extends Table[Frequency](tag, "gtfs_frequencies") {
@@ -54,9 +54,9 @@ trait TripsComponent {this: Profile =>
       freq <- frequencyQuery if freq.trip_id === tripId
     } yield freq
 
-    def getById(id: String)(implicit session: Session): Option[TripRec] = {
+    def getById(id: String)(implicit session: Session): Option[Trip] = {
       tripById(id).firstOption.map { case (id, sid, rid, head) =>
-        TripRec(id = id, service_id = sid, route_id = rid, trip_headsign = head,
+        Trip(id = id, service_id = sid, route_id = rid, trip_headsign = head,
           stopTimes = stopsByTripId(id).list.sortBy(_.stop_sequence),
           frequency = freqByTripId(id).firstOption
         )

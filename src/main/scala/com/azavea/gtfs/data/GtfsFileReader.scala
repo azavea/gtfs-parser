@@ -50,7 +50,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   override def getStopTimes = {
     for (s <- CsvParser.fromPath(dir + "/stop_times.txt"))
     yield {
-      StopTimeRec(
+      StopTime(
         stop_id = s("stop_id"),
         trip_id = s("trip_id"),
         stop_sequence = s("stop_sequence").toInt,
@@ -66,7 +66,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   override def getTrips = {
     for (t <- CsvParser.fromPath(dir + "/trips.txt"))
     yield {
-      TripRec(
+      Trip(
         id = t("trip_id"),
         service_id = t("service_id"),
         route_id = t("route_id"),

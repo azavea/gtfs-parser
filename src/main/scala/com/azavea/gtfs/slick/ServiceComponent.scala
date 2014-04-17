@@ -7,13 +7,6 @@ trait ServiceComponent {this: Profile =>
   import profile.simple._
   import jodaSupport._
 
-
-  /*
-  service_id: ServiceId,
-  start_date: LocalDate,
-  end_date: LocalDate,
-  week: Array[Boolean]
-   */
   class Calendars(tag: Tag)
     extends Table[ServiceCalendar](tag, "gtfs_calendar")
   {
@@ -66,9 +59,6 @@ trait ServiceComponent {this: Profile =>
     val queryCalendarDates = TableQuery[CalendarDates]
 
 
-    //So this is shitty to get here are some other useful subsets
-    // - service calendar between dates
-    // - service calendar for a single service (lol?)
     /** Get full service ... for all time */
     def getService(implicit session: Session): Service = {
       Service(queryCalendars.list, queryCalendarDates.list)

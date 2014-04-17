@@ -5,9 +5,9 @@ import com.github.nscala_time.time.Imports._
 import scala.collection.mutable
 import com.azavea.gtfs.ServiceException
 import com.azavea.gtfs.Stop
-import com.azavea.gtfs.TripRec
+import com.azavea.gtfs.Trip
 import com.azavea.gtfs.Route
-import com.azavea.gtfs.StopTimeRec
+import com.azavea.gtfs.StopTime
 import com.azavea.gtfs.ServiceCalendar
 import com.azavea.gtfs.Frequency
 import java.util
@@ -30,16 +30,16 @@ class GtfsData(reader: GtfsReader) {
   val frequencies: Map[TripId, Frequency] =
     reader.getFrequencies.map(f => f.trip_id -> f).toMap
   println("parsing trips...")
-  val trips: Array[TripRec] =
+  val trips: Array[Trip] =
     reader.getTrips.map(clean).toArray
   println("gouping trips by id ...")
-  val tripById: Map[TripId, TripRec] =
+  val tripById: Map[TripId, Trip] =
     trips.map(t => t.id -> t).toMap
   println("grouping trips by service...")
-  val tripsByService: Map[ServiceId, Array[TripRec]] =
+  val tripsByService: Map[ServiceId, Array[Trip]] =
     trips.groupBy(_.service_id).withDefaultValue(Array.empty)
   println("grouping trips by route...")
-  val tripsByRoute: Map[ServiceId, Array[TripRec]] =
+  val tripsByRoute: Map[ServiceId, Array[Trip]] =
     trips.groupBy(_.route_id).withDefaultValue(Array.empty)
   println("parsing calendar...")
   val calendar: Array[ServiceCalendar] =
@@ -48,14 +48,14 @@ class GtfsData(reader: GtfsReader) {
   val calendarDates: Array[ServiceException] =
     reader.getCalendarDates.toArray
 
-  def clean(t: TripRec):TripRec = {
+  def clean(t: Trip):Trip = {
     val f = frequencies.get(t.id)
     val st = stopTimesByTrip(t.id).sortBy(_.stop_sequence)
     val s = Interpolator.interpolate(st.toArray)(GtfsData.StopTimeInterp)
     t.copy(stopTimes = s, frequency = f)
   }
 
-  def clean(st: StopTimeRec): StopTimeRec = {
+  def clean(st: StopTime): StopTime = {
     println(st.stop_id)
     //TODO - st.copy(stop = stops(st.stop_id))
     st
@@ -63,17 +63,17 @@ class GtfsData(reader: GtfsReader) {
 }
 
 object GtfsData {
-  implicit val StopTimeInterp = new Interpolatable[StopTimeRec] {
-    override def x(t1: StopTimeRec): Double =
+  implicit val StopTimeInterp = new Interpolatable[StopTime] {
+    override def x(t1: StopTime): Double =
       t1.shape_dist_traveled
 
-    override def y(t1: StopTimeRec): Double =
+    override def y(t1: StopTime): Double =
       t1.arrival_time.getMillis.toDouble
 
-    override def update(t: StopTimeRec, x: Double): StopTimeRec =
+    override def update(t: StopTime, x: Double): StopTime =
       t.copy(arrival_time = x.toInt.seconds, departure_time = x.toInt.seconds)
 
-    override def missing(t: StopTimeRec): Boolean =
+    override def missing(t: StopTime): Boolean =
       t.arrival_time == null //nulls are bad, must exterminate nulls
   }
 }

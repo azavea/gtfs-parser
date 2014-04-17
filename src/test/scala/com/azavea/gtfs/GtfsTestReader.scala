@@ -22,13 +22,13 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getTrips = List(
-    TripRec("T1","SR1","R1",None ,Nil)
+    Trip("T1","SR1","R1",None ,Nil)
   )
 
   def getStopTimes = List(
-    StopTimeRec("S1","T1", 1, 0.seconds, 1.minute),
-    StopTimeRec("S2","T1", 2, 10.minutes, 11.minutes),
-    StopTimeRec("S3","T1", 3, 15.minutes, 16.minutes)
+    StopTime("S1","T1", 1, 0.seconds, 1.minute),
+    StopTime("S2","T1", 2, 10.minutes, 11.minutes),
+    StopTime("S3","T1", 3, 15.minutes, 16.minutes)
   )
 
   def getCalendar = List(
