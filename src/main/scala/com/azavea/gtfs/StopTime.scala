@@ -13,7 +13,7 @@ class StopTime(
   val arrival: LocalDateTime,
   val departure: LocalDateTime
 ) {
-  def stop: Stop = rec.stop
+  //TODO - def stop: Stop = rec.stop
   def stop_id: StopId = rec.stop_id
   def sequence: Int = rec.stop_sequence
 }
