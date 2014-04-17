@@ -5,6 +5,9 @@ trait Unique {
   val id: String
 }
 
+/**
+ * Abstraction over a standard "Indexed" table. Not actually used right now. But it's neat.
+ */
 trait CrudComponent{ this: Profile =>
   import profile.simple._
 
