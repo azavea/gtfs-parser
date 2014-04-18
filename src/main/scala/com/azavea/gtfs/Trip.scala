@@ -31,12 +31,12 @@ case class Trip (
         yield
           new ScheduledTrip(
             rec = this,
-            stops = stopTimes.view.map{ _.toStopTime(dt, offset) }
+            stops = stopTimes.view.map{ _.toStopDateTime(dt, offset) }
           )
       case None =>
         Stream(new ScheduledTrip(
           rec = this,
-          stops = stopTimes.view.map{ _.toStopTime(date)}
+          stops = stopTimes.view.map{ _.toStopDateTime(date)}
         ))
     }
   }

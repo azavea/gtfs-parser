@@ -60,12 +60,12 @@ trait ServiceComponent {this: Profile =>
 
 
     /** Get full service ... for all time */
-    def getService(implicit session: Session): Service = {
+    def full(implicit session: Session): Service = {
       Service(queryCalendars.list, queryCalendarDates.list)
     }
 
     /** Get service calendar effective between two dates */
-    def getService(start: LocalDate, end: LocalDate)(implicit session: Session): Service = {
+    def get(start: LocalDate, end: LocalDate)(implicit session: Session): Service = {
       val weeks = for {
         w <- queryCalendars if (w.start_date >= start && w.start_date <= end) || (w.end_date >= start && w.end_date <= end)
       } yield w
@@ -78,7 +78,7 @@ trait ServiceComponent {this: Profile =>
     }
 
     /** Get service calendar for single service */
-    def getById(id: String)(implicit session: Session): Service = {
+    def get(id: String)(implicit session: Session): Service = {
       val weeks = for {
         w <- queryCalendars if w.id === id
       } yield w

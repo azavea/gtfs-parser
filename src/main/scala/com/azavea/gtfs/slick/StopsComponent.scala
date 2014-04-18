@@ -20,7 +20,7 @@ trait StopsComponent {this: Profile =>
     def delete(id: String)(implicit session: Session): Boolean =
       query.filter(_.id === id).delete > 0
 
-    def getById(id: String)(implicit session: Session): Option[Stop] =
+    def get(id: String)(implicit session: Session): Option[Stop] =
       queryById(id).firstOption
 
     lazy val queryById = for {
@@ -28,12 +28,12 @@ trait StopsComponent {this: Profile =>
       e <- query if e.id === id
     } yield e
 
-    def insert(entity: Stop)(implicit session: Session): Boolean = {
-      query.forceInsert(entity) == 1
+    def insert(stop: Stop)(implicit session: Session): Boolean = {
+      query.forceInsert(stop) == 1
     }
 
-    def update(entity: Stop)(implicit session: Session): Boolean = {
-      queryById(entity.id).update(entity) == 1
+    def update(stop: Stop)(implicit session: Session): Boolean = {
+      queryById(stop.id).update(stop) == 1
     }
 
   }

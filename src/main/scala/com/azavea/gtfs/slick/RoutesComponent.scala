@@ -27,7 +27,7 @@ trait RoutesComponent {this: Profile =>
     def delete(id: String)(implicit session: Session): Boolean =
       query.filter(_.id === id).delete > 0
 
-    def getById(id: String)(implicit session: Session): Option[Route] =
+    def get(id: String)(implicit session: Session): Option[Route] =
       queryById(id).firstOption
 
     lazy val queryById = for {

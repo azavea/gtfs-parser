@@ -17,15 +17,15 @@ case class StopTime(
   shape_dist_traveled: Double = 0
 ) {
   /** Use given date to calculate arrival and departure time */
-  def toStopTime(dt: LocalDateTime, offset: Period = 0.seconds): StopDateTime = {
+  def toStopDateTime(dt: LocalDateTime, offset: Period = 0.seconds): StopDateTime = {
     new StopDateTime(this,
       dt + arrival_time - offset,
       dt + departure_time - offset
     )
   }
 
-  def toStopTime(dt: LocalDate): StopDateTime =
-    this.toStopTime(dt.toLocalDateTime(LocalTime.Midnight))
+  def toStopDateTime(dt: LocalDate): StopDateTime =
+    this.toStopDateTime(dt.toLocalDateTime(LocalTime.Midnight))
 
   /**
    * Travel time between departure from this stop and arrival at the other

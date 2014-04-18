@@ -34,6 +34,8 @@ trait TripsComponent {this: Profile =>
     def * = (trip_id, start_time, end_time, headway) <> (Frequency.tupled, Frequency.unapply)
   }
 
+
+
   object trips {
     val tripQuery = TableQuery[Trips]
     val stopTimesQuery = TableQuery[StopTimes]
@@ -43,6 +45,12 @@ trait TripsComponent {this: Profile =>
       tripId <- Parameters[String]
       trip <- tripQuery if trip.id === tripId
     } yield trip
+
+    lazy val tripsByRouteId = for {
+      id <- Parameters[String]
+      trip <- tripQuery if trip.route_id === id
+    } yield trip
+
 
     lazy val stopsByTripId = for {
       tripId <- Parameters[String]
@@ -54,13 +62,29 @@ trait TripsComponent {this: Profile =>
       freq <- frequencyQuery if freq.trip_id === tripId
     } yield freq
 
-    def getById(id: String)(implicit session: Session): Option[Trip] = {
-      tripById(id).firstOption.map { case (id, sid, rid, head) =>
-        Trip(id = id, service_id = sid, route_id = rid, trip_headsign = head,
-          stopTimes = stopsByTripId(id).list.sortBy(_.stop_sequence),
-          frequency = freqByTripId(id).firstOption
-        )
+    private def buildTrip(tup: (String, String, String, Option[String]))(implicit session: Session): Trip = {
+      tup match {
+        case (id, sid, rid, head) =>
+          Trip(id = id, service_id = sid, route_id = rid, trip_headsign = head,
+            stopTimes = stopsByTripId(id).list.sortBy(_.stop_sequence),
+            frequency = freqByTripId(id).firstOption
+          )
       }
     }
+
+    def get(id: String)(implicit session: Session): Option[Trip] = {
+      tripById(id).firstOption.map { buildTrip }
+    }
+
+    def getForRoute(routeId: String)(implicit session: Session): List[Trip] = {
+      tripsByRouteId(routeId).list.map { buildTrip }
+    }
+
+    def delete(tripId: String)(implicit session: Session): Boolean = ???
+
+    def insert(trip: Trip)(implicit session: Session): Boolean = ???
+
+    def update(trip: Trip)(implicit session: Session): Boolean = ???
+
   }
 }

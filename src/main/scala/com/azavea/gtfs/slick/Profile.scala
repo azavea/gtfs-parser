@@ -1,7 +1,8 @@
 package com.azavea.gtfs.slick
 
-import scala.slick.driver.JdbcProfile
+import scala.slick.driver.{JdbcDriver, JdbcProfile}
 import com.github.tototoshi.slick.GenericJodaSupport
+
 import com.github.nscala_time.time.Imports._
 import org.joda.time.format.PeriodFormatterBuilder
 import com.azavea.gtfs.RouteType
