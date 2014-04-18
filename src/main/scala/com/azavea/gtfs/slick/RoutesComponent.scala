@@ -29,6 +29,7 @@ trait RoutesComponent {this: Profile =>
 
     def get(id: String)(implicit session: Session): Option[Route] =
       queryById(id).firstOption
+    def apply(id: String)(implicit session: Session) = get(id)
 
     lazy val queryById = for {
       id <- Parameters[String]

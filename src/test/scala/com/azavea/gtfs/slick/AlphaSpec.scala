@@ -13,18 +13,28 @@ class AlphaSpec extends FlatSpec with Matchers {
 
   "One" should "be able to get a trip record from the database" in {
     db withSession { implicit session: Session =>
-      dao.trips.get("426070238825")
-      dao.routes.get("111A")
+      dao.trips("426070238825")
+      dao.routes("111A")
       dao.service.full
 
       val trips = dao.trips
-      val trip = trips.get("426070238825")
+      val trip = trips("426070238825")
 
-      dao.routes.get("111A").get
+      dao.routes("111A").get
     }
   }
 
   it should "find context convenient to use" in {
+    
+    db withSession { implicit session: Session =>
+      import dao.context._  
+      
+      val route = dao.routes("111A").get
 
+      val trips = route.getTrips
+
+      println(trips)
+
+    }
   }
 }

@@ -75,6 +75,7 @@ trait TripsComponent {this: Profile =>
     def get(id: String)(implicit session: Session): Option[Trip] = {
       tripById(id).firstOption.map { buildTrip }
     }
+    def apply(id: String)(implicit session: Session) = get(id)
 
     def getForRoute(routeId: String)(implicit session: Session): List[Trip] = {
       tripsByRouteId(routeId).list.map { buildTrip }
