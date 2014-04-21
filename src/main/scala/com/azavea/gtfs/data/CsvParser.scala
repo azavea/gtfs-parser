@@ -5,7 +5,7 @@ import java.nio.charset.Charset
 
 class CsvParser[T](
     private val reader:BufferedReader
-  ) extends Iterator[String=>String] {
+  ) extends Iterator[String=>Option[String]] {
 
   def parse(s: String): Array[String] =
     CsvParser.lineRegex.findAllIn(s).matchData.map(_.subgroups).flatten.toArray
@@ -16,10 +16,10 @@ class CsvParser[T](
   var line: String = null
   var rec:Array[String] = null
 
-  val getCol: String=>String = {name: String =>
+  val getCol: String=>Option[String] = {name: String =>
     idx.get(name) match {
-      case Some(index) => rec(index)
-      case _ => ""
+      case Some(index) => Some(rec(index))
+      case None => None
     }
   }
 
