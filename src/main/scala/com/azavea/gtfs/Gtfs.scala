@@ -18,6 +18,12 @@ class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
       generator <- tripsByService(service)
       trip <- generator(dt)
     } yield trip
+
+    /**
+     * This is not going to work like this anymore.
+     *
+     * You should be able to get this functionality out of a context
+     */
   }
 
   /** Maximum number of stops in a trip in the route */
