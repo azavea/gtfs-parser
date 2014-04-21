@@ -99,7 +99,17 @@ trait TripsComponent {this: Profile with StopsComponent =>
 
     def delete(tripId: TripId)(implicit session: Session): Boolean = ???
 
-    def insert(trip: Trip)(implicit session: Session): Boolean = ???
+    def insert(trip: Trip)(implicit session: Session): Boolean = {
+      session.withTransaction { t: Session =>
+        tripsTable.forceInsert((trip.id, trip.service_id, trip.route_id, trip.trip_headsign))(t)
+        trip.frequency match {
+          case Some(freq: Frequency) => frequencyTable.forceInsert(freq)(t)
+          case None =>
+        }
+        stopTimesTable.forceInsertAll(trip.stopTimes: _*)(t)
+      }
+      false //TODO - need this to be a real return
+    }
 
     def update(trip: Trip)(implicit session: Session): Boolean = ???
 
