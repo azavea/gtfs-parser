@@ -10,7 +10,7 @@ class CsvParser[T](
   def parse(s: String): Array[String] =
     CsvParser.lineRegex.findAllIn(s).matchData.map(_.subgroups).flatten.toArray
 
-  val head = parse(reader.readLine())
+  val head = parse(reader.readLine()).map(_.trim)
   val idx = head.zip(0 until head.length).toMap
 
   var line: String = null
