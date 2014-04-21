@@ -112,14 +112,18 @@ class GtfsFileReader(dir:String) extends GtfsReader {
 
 
   override def getFrequencies = {
-    for (f <- CsvParser.fromPath(dir + "/frequencies.txt"))
-    yield {
-      Frequency(
-        trip_id = f("trip_id"),
-        start_time = f("start_time"),
-        end_time = f("end_time"),
-        headway = f("headway_secs").toInt.seconds
-      )
+    try {
+      for (f <- CsvParser.fromPath(dir + "/frequencies.txt"))
+      yield {
+        Frequency(
+          trip_id = f("trip_id"),
+          start_time = f("start_time"),
+          end_time = f("end_time"),
+          headway = f("headway_secs").toInt.seconds
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 }
