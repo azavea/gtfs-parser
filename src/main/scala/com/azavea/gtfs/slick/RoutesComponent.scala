@@ -20,12 +20,12 @@ trait RoutesComponent {this: Profile =>
     def * = (id, short_name, long_name, route_type, agency_id, route_desc, route_url, route_color, route_text_color)  <>
       (Route.tupled, Route.unapply)
   }
+  val routesTable = TableQuery[Routes]
 
   object routes {
-    val query = TableQuery[Routes]
 
     def delete(id: String)(implicit session: Session): Boolean =
-      query.filter(_.id === id).delete > 0
+      routesTable.filter(_.id === id).delete > 0
 
     def get(id: String)(implicit session: Session): Option[Route] =
       queryById(id).firstOption
@@ -33,11 +33,11 @@ trait RoutesComponent {this: Profile =>
 
     lazy val queryById = for {
       id <- Parameters[String]
-      e <- query if e.id === id
+      e <- routesTable if e.id === id
     } yield e
 
     def insert(entity: Route)(implicit session: Session): Boolean = {
-      query.forceInsert(entity) == 1
+      routesTable.forceInsert(entity) == 1
     }
 
     def update(entity: Route)(implicit session: Session): Boolean = {

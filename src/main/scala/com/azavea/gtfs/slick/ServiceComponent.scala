@@ -36,6 +36,7 @@ trait ServiceComponent {this: Profile =>
       }
 
   }
+  val calendarsTable = TableQuery[Calendars]
 
   class CalendarDates(tag: Tag) extends Table[ServiceException](tag, "gtfs_calendar_dates") {
     def id = column[String]("service_id")
@@ -53,25 +54,22 @@ trait ServiceComponent {this: Profile =>
       }
 
   }
+  val calendarDatesTable = TableQuery[CalendarDates]
 
   object service {
-    val queryCalendars = TableQuery[Calendars]
-    val queryCalendarDates = TableQuery[CalendarDates]
-
-
     /** Get full service ... for all time */
     def full(implicit session: Session): Service = {
-      Service(queryCalendars.list, queryCalendarDates.list)
+      Service(calendarsTable.list, calendarDatesTable.list)
     }
 
     /** Get service calendar effective between two dates */
     def get(start: LocalDate, end: LocalDate)(implicit session: Session): Service = {
       val weeks = for {
-        w <- queryCalendars if (w.start_date >= start && w.start_date <= end) || (w.end_date >= start && w.end_date <= end)
+        w <- calendarsTable if (w.start_date >= start && w.start_date <= end) || (w.end_date >= start && w.end_date <= end)
       } yield w
 
       val exceptions = for {
-        e <- queryCalendarDates if e.date >= start && e.date <= end
+        e <- calendarDatesTable if e.date >= start && e.date <= end
       } yield e
 
       Service(weeks.list, exceptions.list)
@@ -80,11 +78,11 @@ trait ServiceComponent {this: Profile =>
     /** Get service calendar for single service */
     def get(id: String)(implicit session: Session): Service = {
       val weeks = for {
-        w <- queryCalendars if w.id === id
+        w <- calendarsTable if w.id === id
       } yield w
 
       val exceptions = for {
-        e <- queryCalendarDates if e.id === id
+        e <- calendarDatesTable if e.id === id
       } yield e
 
       Service(weeks.list, exceptions.list)

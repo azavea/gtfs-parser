@@ -13,23 +13,22 @@ trait StopsComponent {this: Profile =>
     def lon = column[Double]("stop_lon")
     def * = (id, name, desc, lat, lon)  <> (Stop.tupled, Stop.unapply)
   }
+  val stopsTable = TableQuery[Stops]
 
   object stops {
-    val query = TableQuery[Stops]
-
     def delete(id: String)(implicit session: Session): Boolean =
-      query.filter(_.id === id).delete > 0
+      stopsTable.filter(_.id === id).delete > 0
 
     def get(id: String)(implicit session: Session): Option[Stop] =
       queryById(id).firstOption
 
     lazy val queryById = for {
       id <- Parameters[String]
-      e <- query if e.id === id
+      e <- stopsTable if e.id === id
     } yield e
 
     def insert(stop: Stop)(implicit session: Session): Boolean = {
-      query.forceInsert(stop) == 1
+      stopsTable.forceInsert(stop) == 1
     }
 
     def update(stop: Stop)(implicit session: Session): Boolean = {
