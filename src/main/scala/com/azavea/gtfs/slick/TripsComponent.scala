@@ -23,7 +23,7 @@ trait TripsComponent {this: Profile with StopsComponent =>
     def stop_sequence = column[Int]("stop_sequence")
     def arrival_time = column[Period]("arrival_time")
     def departure_time = column[Period]("departure_time")
-    def shape_dist_traveled = column[Double]("shape_dist_traveled")
+    def shape_dist_traveled = column[Option[Double]]("shape_dist_traveled")
 
     def stop = foreignKey("STOP_FK", stop_id, stopsTable)(_.id)
     def trip = foreignKey("TRIP_FK", trip_id, tripsTable)(_.id)

@@ -65,7 +65,7 @@ class GtfsData(reader: GtfsReader) {
 object GtfsData {
   implicit val StopTimeInterp = new Interpolatable[StopTime] {
     override def x(t1: StopTime): Double =
-      t1.shape_dist_traveled
+      t1.shape_dist_traveled.get
 
     override def y(t1: StopTime): Double =
       t1.arrival_time.getMillis.toDouble

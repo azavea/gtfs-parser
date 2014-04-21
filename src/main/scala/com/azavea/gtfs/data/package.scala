@@ -15,6 +15,10 @@ package object data {
     }
   }
 
+  implicit def String2OptionalDouble(s: String):Option[Double] = {
+    if (s == "") None else Some(s.toDouble)
+  }
+
   val periodFormatter = new PeriodFormatterBuilder()
     .appendHours().appendSuffix(":")
     .appendMinutes().appendSuffix(":")

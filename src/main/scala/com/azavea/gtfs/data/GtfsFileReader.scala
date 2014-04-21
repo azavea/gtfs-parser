@@ -18,6 +18,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   override def getStops = {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
+      println(s("stop_id"), s("stop_lat"))
       Stop(
         id = s("stop_id"),
         stop_name = s("stop_name"),
@@ -56,7 +57,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         stop_sequence = s("stop_sequence").toInt,
         arrival_time = s("arrival_time"),
         departure_time = s("departure_time"),
-        shape_dist_traveled = s("shape_dist_traveled").toDouble
+        shape_dist_traveled = s("shape_dist_traveled")
         //TODO -- stop = null
       )
     }

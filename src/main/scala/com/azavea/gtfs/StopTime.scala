@@ -14,7 +14,7 @@ case class StopTime(
   stop_sequence: Int,
   arrival_time: Period,
   departure_time: Period,
-  shape_dist_traveled: Double = 0
+  shape_dist_traveled: Option[Double] = None
 ) {
   /** Use given date to calculate arrival and departure time */
   def toStopDateTime(dt: LocalDateTime, offset: Period = 0.seconds): StopDateTime = {
