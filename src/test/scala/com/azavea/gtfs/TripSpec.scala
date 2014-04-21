@@ -19,8 +19,8 @@ class TripSpec extends FlatSpec with Matchers {
   val trip1 = Trip("T1","SR1","R1",None,
     List(
       StopTime("S1","T1", 1, 0.seconds, 1.minute),
-      StopTime("S2","T1", 1, 10.minutes, 11.minutes),
-      StopTime("S3","T1", 1, 15.minutes, 16.minutes)
+      StopTime("S2","T1", 2, 10.minutes, 11.minutes),
+      StopTime("S3","T1", 3, 15.minutes, 16.minutes)
     )
   )
   val trip2 = Trip("T2","SR1","R1",None,

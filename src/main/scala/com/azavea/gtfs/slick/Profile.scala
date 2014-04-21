@@ -17,6 +17,8 @@ trait Profile {
   /** Periods are expressed in HH:MM:SS */
   implicit val periodColumnType = {
     val formatter = new PeriodFormatterBuilder()
+      .minimumPrintedDigits(2)
+      .printZeroAlways()
       .appendHours().appendSuffix(":")
       .appendMinutes().appendSuffix(":")
       .appendSeconds()
