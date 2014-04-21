@@ -76,4 +76,6 @@ object GtfsData {
     override def missing(t: StopTime): Boolean =
       t.arrival_time == null //nulls are bad, must exterminate nulls
   }
+
+  def fromFile(dir: String) = new GtfsData(new GtfsFileReader(dir))
 }
