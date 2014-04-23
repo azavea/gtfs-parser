@@ -97,21 +97,23 @@ trait TripsComponent {this: Profile with StopsComponent =>
       } yield trip }.list.map { buildTrip }
     }
 
-    def delete(tripId: TripId)(implicit session: Session): Boolean = ???
+    def delete(tripId: TripId)(implicit session: Session): Boolean = {
+      stopsByTripId(tripId).delete
+      freqByTripId(tripId).delete
+      tripById(tripId).delete
+      false //TODO - need this to be a real return
+    }
 
     def insert(trip: Trip)(implicit session: Session): Boolean = {
-      session.withTransaction { t: Session =>
-        tripsTable.forceInsert((trip.id, trip.service_id, trip.route_id, trip.trip_headsign))(t)
-        trip.frequency match {
-          case Some(freq: Frequency) => frequencyTable.forceInsert(freq)(t)
-          case None =>
-        }
-        stopTimesTable.forceInsertAll(trip.stopTimes: _*)(t)
+      tripsTable.forceInsert((trip.id, trip.service_id, trip.route_id, trip.trip_headsign))
+      trip.frequency match {
+        case Some(freq: Frequency) => frequencyTable.forceInsert(freq)
+        case None =>
       }
+      stopTimesTable.forceInsertAll(trip.stopTimes: _*)
       false //TODO - need this to be a real return
     }
 
     def update(trip: Trip)(implicit session: Session): Boolean = ???
-
   }
 }
