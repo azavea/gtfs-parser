@@ -11,6 +11,11 @@ class GtfsTestReader extends GtfsReader{
   implicit def seqToIterator[T](seq: Traversable[T]): Iterator[T] =
     seq.toIterator
 
+
+  override def getAgencies: Iterator[Agency] = List(
+    Agency(None, "THE", "http://", "EST")
+  )
+
   def getStops = List(
     Stop("S1", "Stop 1", "First Stop", 0, 0),
     Stop("S2", "Stop 1", "First Stop", 10, 10),

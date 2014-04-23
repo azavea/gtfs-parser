@@ -9,10 +9,25 @@ import com.github.nscala_time.time.Imports._
  * @param dir directory containing the files
  */
 class GtfsFileReader(dir:String) extends GtfsReader {
+
+  override def getAgencies: Iterator[Agency] = {
+    for (s <- CsvParser.fromPath(dir + "/agency.txt"))
+    yield {
+      Agency(
+        id = s("agency_id"),
+        agency_name = s("agency_name").get,
+        agency_url = s("agency_url").get,
+        agency_timezone = s("agency_timezone").get,
+        agency_lang = s("agency_lang"),
+        agency_phone = s("agency_phone"),
+        agency_fare_url = s("agency_fare_url")
+      )
+    }
+  }
+
   override def getStops = {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
-      println(s("stop_id"), s("stop_lat"))
       Stop(
         id = s("stop_id").get,
         stop_name = s("stop_name").get,

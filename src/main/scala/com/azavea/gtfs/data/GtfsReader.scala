@@ -3,6 +3,7 @@ package com.azavea.gtfs.data
 import com.azavea.gtfs._
 
 trait GtfsReader {
+  def getAgencies: Iterator[Agency]
   def getStops: Iterator[Stop]
   def getStopTimes: Iterator[StopTime]
   def getTrips: Iterator[Trip]

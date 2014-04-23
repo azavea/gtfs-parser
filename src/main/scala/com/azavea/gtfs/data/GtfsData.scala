@@ -18,8 +18,11 @@ import com.azavea.gtfs.util.{Interpolator, Interpolatable}
  * @param reader used to read in records during construction
  */
 class GtfsData(reader: GtfsReader) {
+  println("parsing agencies")
+  val agencies = reader.getAgencies.toArray
   println("parsing stops")
-  val stops =reader.getStops.map(s => s.id -> s).toMap
+  val stops =reader.getStops.toArray
+  val stopsById = reader.getStops.map(s => s.id -> s).toMap
   println("parsing routes")
   val routes = reader.getRoutes.toArray
   println("parsing stop times...")

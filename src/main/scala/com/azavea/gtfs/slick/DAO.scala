@@ -8,5 +8,6 @@ class DAO(override val profile: JdbcProfile, override val jodaSupport: GenericJo
   with StopsComponent
   with TripsComponent
   with RoutesComponent
+  with AgencyComponent
   with ServiceComponent
   with SlickContextComponent
