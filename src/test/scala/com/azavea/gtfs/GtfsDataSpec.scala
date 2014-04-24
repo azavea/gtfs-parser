@@ -9,11 +9,7 @@ class GtfsDataSpec extends FlatSpec with Matchers {
 
   val data = new GtfsData(new GtfsTestReader)
 
-  "GtfsTestData" should "return calendar records" in {
-    data.calendar should not be empty
-  }
-
-  it should "contain calendar dates records" in {
-    data.calendarDates should not be empty
+  "GtfsTestData" should "have a spec" in {
+    fail()
   }
 }

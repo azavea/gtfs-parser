@@ -8,24 +8,9 @@ import com.github.nscala_time.time.Imports
 
 /**
  * Transit system specified by GTFS
+ * This class is going to be gone soon, repalced by some kind of DAO like interface into GtfsData
  */
 class Gtfs(data: GtfsData) {
-  val cal = new Service(data.calendar, data.calendarDates)
-
-  def getTripsOn(dt: LocalDate): Seq[ScheduledTrip] = {
-    for{
-      service <- cal.getServiceFor(dt)
-      generator <- data.tripsByService(service)
-      trip <- generator(dt)
-    } yield trip
-
-    /**
-     * This is not going to work like this anymore.
-     *
-     * You should be able to get this functionality out of a context
-     */
-  }
-
   /** Maximum number of stops in a trip in the route */
   def maxStopsForRoute(route: RouteId):  Int =
     data.tripsByRoute(route).maxBy(_.stopTimes.length).stopTimes.length

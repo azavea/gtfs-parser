@@ -6,30 +6,22 @@ import com.github.nscala_time.time.Imports._
  * Service availability calendar, combining both regular service and exceptions
  * Source: calendar.txt, calendar_dates.txt
  */
-case class Service(recs: Seq[ServiceCalendar], exceptions: Seq[ServiceException]) {
-  /**
-   * @param dt Date of inquiry
-   * @return Sequence of ServiceIds that are active on the date
-   */
-  def getServiceFor(dt: LocalDate): Seq[ServiceId] = {
-    //Find services that are active in calendar.txt
-    val scheduled = recs
-      .filter{ r=>
-        r.start_date <= dt && r.end_date >= dt && r.activeOn(dt)
-      }.map(_.service_id)
-      .toSet
+case class Service(week: ServiceCalendar, exceptions: Seq[ServiceException]) {
+  def id = week.service_id
 
-    //Merge in exceptions declared in calendar_dates.txt
-    val except = exceptions.filter(e => e.date == dt)
-    val add = except
-      .filter{ _.addService }
-      .map{ _.service_id }
-      .toSet
-    val remove = except
-      .filter{ _.removeService }
-      .map{_.service_id }
-      .toSet
+  def activeOn(dt: LocalDate) = {
+    exceptions.find(_.date == dt) match {
+      case Some(e) => e.addService    //check exception first
+      case None => week.activeOn(dt)  //default
+    }
+  }
+}
 
-    (scheduled -- remove) ++ add
-  }.toSeq
+object Service {
+   def collate(weeks: Seq[ServiceCalendar], dates: Seq[ServiceException]): Seq[Service] = {
+    val datesMap = dates.groupBy(_.service_id)
+    weeks.map { week =>
+      Service(week, datesMap.getOrElse(week.service_id, Nil))
+    }
+  }
 }

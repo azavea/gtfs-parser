@@ -112,7 +112,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     yield {
       ServiceException(
         service_id = c("service_id").get,
-        date = c("date").get.toLocalDate,
+        date = c("date").get,
         exception = if (c("exception_type") == "1") 'Add else 'Remove
       )
     }

@@ -23,11 +23,11 @@ trait SlickContextComponent { self: Profile with TripsComponent with StopsCompon
     }
 
     implicit class RichService(service: Service){
-      def getTripsOn(dt: LocalDate)(implicit s: Session) = {
-        val sids = service.getServiceFor(dt)
-
-        //This actually takes a little while, consider if trips and stoptimes really should be hard linked
-        trips.getForServices(sids)
+      def getTripsOn(dt: LocalDate)(implicit s: Session): List[Trip] = {
+        if (service.activeOn(dt))
+          trips.getForService(service.id)
+        else
+          Nil
       }
     }
   }

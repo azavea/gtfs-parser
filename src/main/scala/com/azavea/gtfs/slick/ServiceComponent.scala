@@ -39,11 +39,13 @@ trait ServiceComponent {this: Profile =>
   val calendarsTable = TableQuery[Calendars]
 
   class CalendarDates(tag: Tag) extends Table[ServiceException](tag, "gtfs_calendar_dates") {
-    def id = column[String]("service_id")
+    def service_id = column[String]("service_id")
     def date = column[LocalDate]("date")
     def exception_type = column[Int]("exception_type")
 
-    def * = (id, date, exception_type) <> (applyDates.tupled, unapplyDates)
+    def trip = foreignKey("SERVICE_FK", service_id, calendarsTable)(_.id)
+
+    def * = (service_id, date, exception_type) <> (applyDates.tupled, unapplyDates)
 
     val applyDates: (String, LocalDate, Int) => ServiceException =
       { case (id, date, t) => ServiceException(id, date, if (t==1) 'Add else 'Remove) }
@@ -58,34 +60,42 @@ trait ServiceComponent {this: Profile =>
 
   object service {
     /** Get full service ... for all time */
-    def full(implicit session: Session): Service = {
-      Service(calendarsTable.list, calendarDatesTable.list)
+    def full(implicit session: Session): List[Service] = {
+      Service.collate(calendarsTable.list, calendarDatesTable.list).toList
     }
 
     /** Get service calendar effective between two dates */
-    def get(start: LocalDate, end: LocalDate)(implicit session: Session): Service = {
+    def get(start: LocalDate, end: LocalDate)(implicit session: Session): List[Service] = {
       val weeks = for {
         w <- calendarsTable if (w.start_date >= start && w.start_date <= end) || (w.end_date >= start && w.end_date <= end)
       } yield w
 
-      val exceptions = for {
+      val dates = for {
         e <- calendarDatesTable if e.date >= start && e.date <= end
       } yield e
 
-      Service(weeks.list, exceptions.list)
+      Service.collate(weeks.list, dates.list).toList
     }
 
     /** Get service calendar for single service */
-    def get(id: String)(implicit session: Session): Service = {
+    def get(id: String)(implicit session: Session): Option[Service] = {
       val weeks = for {
         w <- calendarsTable if w.id === id
       } yield w
 
       val exceptions = for {
-        e <- calendarDatesTable if e.id === id
+        e <- calendarDatesTable if e.service_id === id
       } yield e
 
-      Service(weeks.list, exceptions.list)
+      weeks.firstOption.map { week =>
+        Service(week, exceptions.list)
+      }
+    }
+    
+    def insert(service: Service)(implicit session: Session): Boolean = {
+      calendarsTable.forceInsert(service.week)
+      calendarDatesTable.forceInsertAll(service.exceptions: _*)
+      false //TODO - needs real return feedback
     }
   }
 }

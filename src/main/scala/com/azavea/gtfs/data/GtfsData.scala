@@ -44,12 +44,15 @@ class GtfsData(reader: GtfsReader) {
   println("grouping trips by route...")
   val tripsByRoute: Map[ServiceId, Array[Trip]] =
     trips.groupBy(_.route_id).withDefaultValue(Array.empty)
-  println("parsing calendar...")
-  val calendar: Array[ServiceCalendar] =
-    reader.getCalendar.toArray
-  println("parsing calendar dates ...")
-  val calendarDates: Array[ServiceException] =
-    reader.getCalendarDates.toArray
+
+  val service = {
+    println("parsing calendar...")
+    val calendars = reader.getCalendar.toArray
+    println("parsing calendar dates ...")
+    val calendarDates = reader.getCalendarDates.toArray
+
+    Service.collate(calendars, calendarDates).toArray
+  }
 
   def clean(t: Trip):Trip = {
     val f = frequencies.get(t.id)
@@ -60,7 +63,6 @@ class GtfsData(reader: GtfsReader) {
 
   def clean(st: StopTime): StopTime = {
     println(st.stop_id)
-    //TODO - st.copy(stop = stops(st.stop_id))
     st
   }
 }

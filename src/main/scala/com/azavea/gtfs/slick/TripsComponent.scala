@@ -91,6 +91,10 @@ trait TripsComponent {this: Profile with StopsComponent =>
       tripsByRouteId(routeId).list.map { buildTrip }
     }
 
+    def getForService(sid: ServiceId)(implicit session: Session): List[Trip] = {
+      tripsByServiceId(sid).list.map{ buildTrip }
+    }
+
     def getForServices(sids: Seq[ServiceId])(implicit session: Session): List[Trip] = {
       { for {
         trip <- tripsTable if trip.service_id inSet sids
