@@ -7,10 +7,11 @@ import com.github.nscala_time.time.Imports._
 import org.joda.time.format.PeriodFormatterBuilder
 import com.azavea.gtfs.RouteType
 import com.azavea.gtfs.RouteType.RouteType
+import geotrellis.slick.PostGisDriver
 
 trait Profile {
-  val profile: JdbcProfile
-  val jodaSupport: GenericJodaSupport
+  val profile = PostGisDriver
+  val joda = new GenericJodaSupport(PostGisDriver)
 
   import profile.simple._
 

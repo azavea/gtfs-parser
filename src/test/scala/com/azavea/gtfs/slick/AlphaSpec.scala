@@ -8,9 +8,10 @@ import com.github.nscala_time.time.Imports._
 import scala.slick.driver.PostgresDriver
 import com.github.tototoshi.slick.PostgresJodaSupport
 import com.azavea.gtfs.data.GtfsData
+import geotrellis.slick._
 
 class AlphaSpec extends FlatSpec with Matchers {
-  val dao = new DAO(PostgresDriver, PostgresJodaSupport)
+  val dao = new DAO
   val db = Database.forURL("jdbc:postgresql:chicago_gtfs", driver = "org.postgresql.Driver")
 
   "One" should "be able to get a trip record from the database" in {

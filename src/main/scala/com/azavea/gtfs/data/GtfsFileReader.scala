@@ -71,6 +71,21 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     }
   }
 
+  override def getShapes = {
+    try {
+      for (f <- CsvParser.fromPath(dir + "/shapes.txt"))
+      yield {
+        (
+          f("shape_id").get,
+          f("shape_pt_lat").get.toDouble,
+          f("shape_pt_lat").get.toDouble,
+          f("shape_pt_sequence").get.toInt
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
+    }
+  }
 
   override def getTrips = {
     for (t <- CsvParser.fromPath(dir + "/trips.txt"))
@@ -79,6 +94,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         id = t("trip_id").get,
         service_id = t("service_id").get,
         route_id = t("route_id").get,
+        shape_id = t("shape_id"),
         trip_headsign = t("trip_headsign"),
         stopTimes = Nil
       )

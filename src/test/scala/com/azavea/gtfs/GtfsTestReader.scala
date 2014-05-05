@@ -52,4 +52,6 @@ class GtfsTestReader extends GtfsReader{
   def getFrequencies = List(
     Frequency("T1", start_time = 10.hours, end_time = 10.hours + 13.minutes, headway = 300.seconds)
   )
+
+  def getShapes = Iterator.empty
 }

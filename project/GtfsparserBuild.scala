@@ -21,9 +21,9 @@ object GtfsparserBuild extends Build {
           "org.slf4j" % "slf4j-nop" % "1.6.4",
           "postgresql" % "postgresql" % "9.1-901.jdbc4",
 
-
-          "com.azavea.geotrellis" %% "geoslick" % "0.3.0-SNAPSHOT",
           "com.azavea.geotrellis" %% "geotrellis-feature" % "0.10.0-SNAPSHOT",
+          "com.azavea.geotrellis" %% "geotrellis-proj4" % "0.10.0-SNAPSHOT",
+          "com.azavea.geotrellis" %% "geotrellis-slick" % "0.10.0-SNAPSHOT",
 
           "org.joda" % "joda-convert" % "1.5",
           "com.github.tototoshi" %% "slick-joda-mapper" % "1.0.1"

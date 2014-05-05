@@ -1,12 +1,10 @@
 package com.azavea.gtfs.slick
 
-import scala.slick.driver.{JdbcDriver, JdbcProfile}
-import com.github.tototoshi.slick.GenericJodaSupport
-
-class DAO(override val profile: JdbcProfile, override val jodaSupport: GenericJodaSupport)
+class DAO
   extends Profile
   with StopsComponent
   with TripsComponent
+  with ShapesComponent
   with RoutesComponent
   with AgencyComponent
   with ServiceComponent

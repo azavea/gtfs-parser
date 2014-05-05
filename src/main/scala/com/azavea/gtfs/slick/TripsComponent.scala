@@ -2,18 +2,25 @@ package com.azavea.gtfs.slick
 
 import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
+import geotrellis.feature._
+import geotrellis.slick._
 
-
-trait TripsComponent {this: Profile with StopsComponent =>
+trait TripsComponent {this: Profile with StopsComponent with ShapesComponent with RoutesComponent =>
   import profile.simple._
 
-  class Trips(tag: Tag) extends Table[(String, String, String, Option[String])](tag, "gtfs_trips") {
+  class Trips(tag: Tag)
+    extends Table[(String, String, String, Option[String], Option[String])](tag, "gtfs_trips")
+  {
     def id = column[String]("trip_id")
     def service_id = column[String]("service_id")
     def route_id = column[String]("route_id")
+    def shape_id = column[Option[String]]("shape_id")
     def trip_headsign = column[Option[String]]("trip_headsign")
 
-    def * = (id, service_id, route_id, trip_headsign)
+    def shape = foreignKey("SHAPE_FK", shape_id, shapesTable)(_.id)
+    def route = foreignKey("ROUTE_FK", route_id, routesTable)(_.id)
+
+    def * = (id, service_id, route_id, shape_id, trip_headsign)
   }
   val tripsTable = TableQuery[Trips]
 
@@ -72,10 +79,10 @@ trait TripsComponent {this: Profile with StopsComponent =>
       freq <- frequencyTable if freq.trip_id === tripId
     } yield freq
 
-    private def buildTrip(tup: (String, String, String, Option[String]))(implicit session: Session): Trip = {
+    private def buildTrip(tup: (String, String, String, Option[String], Option[String]))(implicit session: Session): Trip = {
       tup match {
-        case (id, sid, rid, head) =>
-          Trip(id = id, service_id = sid, route_id = rid, trip_headsign = head,
+        case (id, sid, rid, shid, head) =>
+          Trip(id = id, service_id = sid, route_id = rid, shape_id = shid, trip_headsign = head,
             stopTimes = stopsByTripId(id).list.sortBy(_.stop_sequence),
             frequency = freqByTripId(id).firstOption
           )
@@ -109,7 +116,7 @@ trait TripsComponent {this: Profile with StopsComponent =>
     }
 
     def insert(trip: Trip)(implicit session: Session): Boolean = {
-      tripsTable.forceInsert((trip.id, trip.service_id, trip.route_id, trip.trip_headsign))
+      tripsTable.forceInsert((trip.id, trip.service_id, trip.route_id, trip.shape_id, trip.trip_headsign))
       trip.frequency match {
         case Some(freq: Frequency) => frequencyTable.forceInsert(freq)
         case None =>

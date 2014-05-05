@@ -12,6 +12,7 @@ import com.azavea.gtfs.ServiceCalendar
 import com.azavea.gtfs.Frequency
 import java.util
 import com.azavea.gtfs.util.{Interpolator, Interpolatable}
+import geotrellis.feature._
 
 /**
  * Contains cleaned and indexed GTFS data
@@ -20,6 +21,14 @@ import com.azavea.gtfs.util.{Interpolator, Interpolatable}
 class GtfsData(reader: GtfsReader) {
   println("parsing agencies")
   val agencies = reader.getAgencies.toArray
+  println("parsing shapes...")
+  val shapes = {
+    reader.getShapes.toList.groupBy{_._1}.map { case (k, t) =>
+      val sorted = t.sortBy(_._4)
+      val points = sorted.map{r => Point(r._2, r._3)}
+      TripShape(k, Line(points))
+    }
+  }
   println("parsing stops")
   val stops =reader.getStops.toArray
   val stopsById = reader.getStops.map(s => s.id -> s).toMap

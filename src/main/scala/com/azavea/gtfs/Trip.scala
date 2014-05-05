@@ -5,6 +5,7 @@ import scala.Some
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, ArrayBuffer}
 import com.azavea.gtfs.util.{Run, RunLength}
+import geotrellis.feature._
 
 /**
  * An abstract trip, detailing the sequence and time of the stops but not the date
@@ -21,7 +22,9 @@ case class Trip (
   route_id: RouteId,
   trip_headsign: Option[String],
   stopTimes: Seq[StopTime],
-  frequency: Option[Frequency] = None
+  frequency: Option[Frequency] = None,
+  shape_id: Option[String] = None,
+  shape: Option[Line] = None
 ) {
   def apply(date: LocalDate): Stream[ScheduledTrip] = {
     frequency match {

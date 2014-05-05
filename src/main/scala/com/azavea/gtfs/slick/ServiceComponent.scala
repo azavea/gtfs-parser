@@ -5,7 +5,7 @@ import com.github.nscala_time.time.Imports._
 
 trait ServiceComponent {this: Profile =>
   import profile.simple._
-  import jodaSupport._
+  import joda._
 
   class Calendars(tag: Tag)
     extends Table[ServiceCalendar](tag, "gtfs_calendar")
