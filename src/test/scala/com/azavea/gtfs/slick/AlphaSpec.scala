@@ -45,6 +45,7 @@ class AlphaSpec extends FlatSpec with Matchers {
     )
     db withSession {
       implicit session: Session =>
+        dao.trips.delete(trip1.id)
         dao.trips.insert(trip1)
     }
   }
