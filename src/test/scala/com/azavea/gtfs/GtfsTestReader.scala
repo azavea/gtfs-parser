@@ -46,7 +46,7 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getCalendarDates = List(
-    ServiceException("S1", new LocalDate(2013,1,5), 'Add) //Saturday
+    ServiceException("SR1", new LocalDate(2013,1,5), 'Add) //Saturday
   )
 
   def getFrequencies = List(
