@@ -1,19 +1,21 @@
 package com.azavea.gtfs.slick
 
-import scala.slick.driver.{JdbcDriver, JdbcProfile}
+import scala.slick.driver.{JdbcDriver, JdbcProfile, PostgresDriver}
 import com.github.tototoshi.slick.GenericJodaSupport
 
 import com.github.nscala_time.time.Imports._
 import org.joda.time.format.PeriodFormatterBuilder
 import com.azavea.gtfs.RouteType
 import com.azavea.gtfs.RouteType.RouteType
-import geotrellis.slick.PostGisDriver
+import geotrellis.slick.PostGisSupport
 
 trait Profile {
-  val profile = PostGisDriver
-  val joda = new GenericJodaSupport(PostGisDriver)
+  val profile = PostgresDriver
+  val joda = new GenericJodaSupport(profile)
+  val gis = new PostGisSupport(profile)
 
   import profile.simple._
+  import gis._
 
   /** Periods are expressed in HH:MM:SS */
   implicit val periodColumnType = {
