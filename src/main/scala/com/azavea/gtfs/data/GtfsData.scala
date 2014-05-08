@@ -13,6 +13,7 @@ import com.azavea.gtfs.Frequency
 import java.util
 import com.azavea.gtfs.util.{Interpolator, Interpolatable}
 import geotrellis.feature._
+import geotrellis.slick._
 
 /**
  * Contains cleaned and indexed GTFS data
@@ -26,7 +27,7 @@ class GtfsData(reader: GtfsReader) {
     reader.getShapes.toList.groupBy{_._1}.map { case (k, t) =>
       val sorted = t.sortBy(_._4)
       val points = sorted.map{r => Point(r._2, r._3)}
-      TripShape(k, Line(points))
+      TripShape(k, ProjectedLine(Line(points), 4326))
     }
   }
   println("parsing stops")

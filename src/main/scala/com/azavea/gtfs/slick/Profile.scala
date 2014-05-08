@@ -7,15 +7,14 @@ import com.github.nscala_time.time.Imports._
 import org.joda.time.format.PeriodFormatterBuilder
 import com.azavea.gtfs.RouteType
 import com.azavea.gtfs.RouteType.RouteType
-import geotrellis.slick.PostGisSupport
+import geotrellis.slick.PostGisProjectionSupport
 
 trait Profile {
   val profile = PostgresDriver
   val joda = new GenericJodaSupport(profile)
-  val gis = new PostGisSupport(profile)
+  val gisProjection = new PostGisProjectionSupport(profile)
 
   import profile.simple._
-  import gis._
 
   /** Periods are expressed in HH:MM:SS */
   implicit val periodColumnType = {

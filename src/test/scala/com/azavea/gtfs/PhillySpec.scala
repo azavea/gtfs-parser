@@ -8,6 +8,7 @@ import scala.slick.jdbc.JdbcBackend._
 import geotrellis.slick._
 import geotrellis.proj4._
 import geotrellis.feature.reproject._
+import geotrellis.slick._
 
 class PhillySpec extends FlatSpec with Matchers {
 
@@ -34,13 +35,10 @@ class PhillySpec extends FlatSpec with Matchers {
 
         data.agencies.foreach { agency => dao.agencies.insert(agency) }
         /**
-         * WARNING: This will fail with: ERROR: Geometry SRID (0) does not match column SRID (4326)
-         * because gtfs_shape_geoms requires a specific SRID
-         * current geotrellis.feature code is very honey badger about SRIDS so it defaults to 0
-         * For now make a new table that does not require an SRID
+         * WARNING: We have to wrap a geometry in a ProjectedLine so we can associate an SRID with it
          */
         data.shapes.foreach { shape =>
-          val ns = TripShape(shape.id, shape.geom.reproject(LatLng, WebMercator))
+          val ns = TripShape(shape.id, ProjectedLine(shape.projectedLine.geom.reproject(LatLng, WebMercator), 3857))
           dao.shapes.insert(ns)
         }
         data.routes.foreach { route => dao.routes.insert(route) }
@@ -54,7 +52,7 @@ class PhillySpec extends FlatSpec with Matchers {
     db withSession { implicit s =>
       //need this line to call the .list invoker
       import dao.profile.simple._
-      import dao.gis._
+      import dao.gisProjection._
 
       val q = {
          for {
@@ -73,7 +71,7 @@ class PhillySpec extends FlatSpec with Matchers {
     db withSession { implicit s =>
       //need this line to call the .list invoker
       import dao.profile.simple._
-      import dao.gis._
+      import dao.gisProjection._
 
       val q = {
         (for {

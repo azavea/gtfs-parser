@@ -2,14 +2,15 @@ package com.azavea.gtfs.slick
 
 import com.azavea.gtfs._
 import geotrellis.feature._
+import geotrellis.slick.ProjectedLine
 
 trait ShapesComponent {this: Profile =>
   import profile.simple._
-  import gis._
+  import gisProjection._
 
   class Shapes(tag: Tag) extends Table[TripShape](tag, "gtfs_shape_geoms") {
     def id = column[String]("shape_id", O.PrimaryKey)
-    def geom = column[Line]("the_geom")
+    def geom = column[ProjectedLine]("the_geom")
 
     def * = (id, geom)  <> (TripShape.tupled, TripShape.unapply)
   }
