@@ -2,6 +2,9 @@ package com.azavea.gtfs
 
 import com.azavea.gtfs.data._
 import com.github.nscala_time.time.Imports._
+import geotrellis.feature._
+import geotrellis.slick._
+
 
 /**
  * User: eugene
@@ -17,9 +20,9 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getStops = List(
-    Stop("S1", "Stop 1", "First Stop", 0, 0),
-    Stop("S2", "Stop 1", "First Stop", 10, 10),
-    Stop("S3", "Stop 1", "First Stop", 10, 20)
+    Stop("S1", "Stop 1", "First Stop", 0, 0, Point(0,0).withSRID(0)),
+    Stop("S2", "Stop 1", "First Stop", 10, 10, Point(10,10).withSRID(0)),
+    Stop("S3", "Stop 1", "First Stop", 10, 20, Point(10,20).withSRID(0))
   )
 
   override def getRoutes = List(

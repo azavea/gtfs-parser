@@ -12,7 +12,7 @@ import geotrellis.slick.PostGisProjectionSupport
 trait Profile {
   val profile = PostgresDriver
   val joda = new GenericJodaSupport(profile)
-  val gisProjection = new PostGisProjectionSupport(profile)
+  val gis = new PostGisProjectionSupport(profile)
 
   import profile.simple._
 

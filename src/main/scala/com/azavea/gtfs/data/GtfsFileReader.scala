@@ -2,6 +2,8 @@ package com.azavea.gtfs.data
 
 import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
+import geotrellis.feature._
+import geotrellis.slick._
 
 
 /**
@@ -28,12 +30,15 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   override def getStops = {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
+      val lat = s("stop_lat").get.toDouble
+      val lng = s("stop_lon").get.toDouble
       Stop(
         id = s("stop_id").get,
         stop_name = s("stop_name").get,
         stop_desc = s("stop_desc").get,
-        stop_lat = s("stop_lat").get.toDouble,
-        stop_lon = s("stop_lon").get.toDouble
+        stop_lat = lat,
+        stop_lon = lng,
+        geom = Point(lat, lng).withSRID(4326)
       )
     }
   }

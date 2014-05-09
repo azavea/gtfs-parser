@@ -1,9 +1,12 @@
 package com.azavea.gtfs.slick
 
 import com.azavea.gtfs._
+import geotrellis.feature._
+import geotrellis.slick._
 
 trait StopsComponent {this: Profile =>
   import profile.simple._
+  import gis._
 
   class Stops(tag: Tag) extends Table[Stop](tag, "gtfs_stops") {
     def id = column[String]("stop_id", O.PrimaryKey)
@@ -11,7 +14,9 @@ trait StopsComponent {this: Profile =>
     def desc = column[String]("stop_desc")
     def lat = column[Double]("stop_lat")
     def lon = column[Double]("stop_lon")
-    def * = (id, name, desc, lat, lon)  <> (Stop.tupled, Stop.unapply)
+    def geom = column[Projected[Point]]("the_geom")
+
+    def * = (id, name, desc, lat, lon, geom)  <> (Stop.tupled, Stop.unapply)
   }
   val stopsTable = TableQuery[Stops]
 

@@ -54,7 +54,7 @@ class PhillySpec extends FlatSpec with Matchers {
     db withSession { implicit s =>
       //need this line to call the .list invoker
       import dao.profile.simple._
-      import dao.gisProjection._
+      import dao.gis._
 
       val q = {
          for {
@@ -73,7 +73,7 @@ class PhillySpec extends FlatSpec with Matchers {
     db withSession { implicit s =>
       //need this line to call the .list invoker
       import dao.profile.simple._
-      import dao.gisProjection._
+      import dao.gis._
 
       val q = {
         (for {
