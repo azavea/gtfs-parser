@@ -38,7 +38,9 @@ class PhillySpec extends FlatSpec with Matchers {
          * WARNING: We have to wrap a geometry in a ProjectedLine so we can associate an SRID with it
          */
         data.shapes.foreach { shape =>
-          val ns = TripShape(shape.id, ProjectedLine(shape.projectedLine.geom.reproject(LatLng, WebMercator), 3857))
+          val ns = shape.copy(
+            line = shape.line.reproject(LatLng, WebMercator)(3857)
+          )
           dao.shapes.insert(ns)
         }
         data.routes.foreach { route => dao.routes.insert(route) }

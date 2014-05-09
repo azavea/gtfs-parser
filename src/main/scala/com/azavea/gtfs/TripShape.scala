@@ -1,7 +1,7 @@
 package com.azavea.gtfs
 
 import geotrellis.feature._
-import geotrellis.slick.ProjectedLine
+import geotrellis.slick.Projected
 
-case class TripShape(id: String, projectedLine: ProjectedLine)
+case class TripShape(id: String, line: Projected[Line])
 

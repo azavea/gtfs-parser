@@ -27,7 +27,7 @@ class GtfsData(reader: GtfsReader) {
     reader.getShapes.toList.groupBy{_._1}.map { case (k, t) =>
       val sorted = t.sortBy(_._4)
       val points = sorted.map{r => Point(r._2, r._3)}
-      TripShape(k, ProjectedLine(Line(points), 4326))
+      TripShape(k, Line(points).withSRID(4326))
     }
   }
   println("parsing stops")
