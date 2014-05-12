@@ -36,9 +36,9 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         id = s("stop_id").get,
         stop_name = s("stop_name").get,
         stop_desc = s("stop_desc").get,
-        stop_lat = lng,
-        stop_lon = lat,
-        geom = Point(lat, lng).withSRID(4326)
+        stop_lat = lat,
+        stop_lon = lng,
+        geom = Point(lng, lat).withSRID(4326)
       )
     }
   }
