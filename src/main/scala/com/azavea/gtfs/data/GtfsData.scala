@@ -30,6 +30,7 @@ class GtfsData(reader: GtfsReader) {
       TripShape(k, Line(points).withSRID(4326))
     }
   }
+  var shapesById = shapes.map(s => s.id -> s).toMap
   println("parsing stops")
   val stops =reader.getStops.toArray
   val stopsById = reader.getStops.map(s => s.id -> s).toMap

@@ -23,8 +23,7 @@ case class Trip (
   trip_headsign: Option[String],
   stopTimes: Seq[StopTime],
   frequency: Option[Frequency] = None,
-  shape_id: Option[String] = None,
-  shape: Option[Line] = None
+  shape_id: Option[String] = None
 ) {
   def apply(date: LocalDate): Stream[ScheduledTrip] = {
     frequency match {
