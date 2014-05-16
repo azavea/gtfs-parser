@@ -19,7 +19,7 @@ import geotrellis.slick._
  * Contains cleaned and indexed GTFS data
  * @param reader used to read in records during construction
  */
-class GtfsData(reader: GtfsReader) {
+class GtfsData(reader: GtfsReader) extends MemoryContextComponent {
   println("parsing agencies")
   val agencies = reader.getAgencies.toArray
   println("parsing shapes...")

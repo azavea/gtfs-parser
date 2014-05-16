@@ -9,7 +9,18 @@ class GtfsDataSpec extends FlatSpec with Matchers {
 
   val data = new GtfsData(new GtfsTestReader)
 
-  "GtfsTestData" should "have a spec" in {
-    //fail()
+  "GtfsTestData" should "have a context" in {
+    import data.context._
+    //everything below is happening through the context
+
+    //I can get all the trips from route, maigc!
+    val r1Trips = data.routes(0).getTrips
+    val t1 = r1Trips.head
+    
+    //I can get a stop from stoptimes
+    val stop = t1.stopTimes.head.getStop
+
+    //We just used a service calendar to find all the trips for it on a day
+    val liveTrip = data.service.head.getTripsOn(new LocalDate(2013,1,5))
   }
 }
