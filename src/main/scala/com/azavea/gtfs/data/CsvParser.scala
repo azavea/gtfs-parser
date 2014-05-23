@@ -2,6 +2,7 @@ package com.azavea.gtfs.data
 
 import java.io.{FileInputStream, InputStreamReader, BufferedReader}
 import java.nio.charset.Charset
+import org.apache.commons.io.input._
 
 class CsvParser[T](
     private val reader:BufferedReader
@@ -38,10 +39,8 @@ object CsvParser {
   val lineRegex = """(?:^|,)"?((?<=")[^"]*|[^,"]*)"?(?=,|$)""".r
   def fromPath[T](path:String) = {
     new CsvParser(
-      new BufferedReader(
-        new InputStreamReader(
-          new FileInputStream(path),
-            Charset.forName("UTF-8")))
+      new BufferedReader( new InputStreamReader(
+        new BOMInputStream(new FileInputStream(path), false)))
     )
   }
 

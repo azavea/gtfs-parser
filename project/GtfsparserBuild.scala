@@ -21,6 +21,8 @@ object GtfsparserBuild extends Build {
           "org.slf4j" % "slf4j-nop" % "1.6.4",
           "postgresql" % "postgresql" % "9.1-901.jdbc4",
 
+          "commons-io" % "commons-io" % "2.4",
+
           "com.azavea.geotrellis" %% "geotrellis-feature" % "0.10.0-SNAPSHOT",
           "com.azavea.geotrellis" %% "geotrellis-proj4" % "0.10.0-SNAPSHOT",
           "com.azavea.geotrellis" %% "geotrellis-slick" % "0.10.0-SNAPSHOT",
