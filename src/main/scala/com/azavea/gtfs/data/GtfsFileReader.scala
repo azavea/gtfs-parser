@@ -71,7 +71,10 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         stop_sequence = s("stop_sequence").get.toInt,
         arrival_time = s("arrival_time").get,
         departure_time = s("departure_time").get,
-        shape_dist_traveled = s("shape_dist_traveled").map(_.toDouble)
+        shape_dist_traveled = s("shape_dist_traveled").flatMap{ _ match {
+          case "" => None //We can have a column, but no value, sad
+          case s => Some(s.toDouble)
+        }}
       )
     }
   }
@@ -129,13 +132,17 @@ class GtfsFileReader(dir:String) extends GtfsReader {
 
 
   def getCalendarDates = {
-    for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
-    yield {
-      ServiceException(
-        service_id = c("service_id").get,
-        date = c("date").get,
-        exception = if (c("exception_type") == "1") 'Add else 'Remove
-      )
+    try {
+      for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
+      yield {
+        ServiceException(
+          service_id = c("service_id").get,
+          date = c("date").get,
+          exception = if (c("exception_type") == "1") 'Add else 'Remove
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 
