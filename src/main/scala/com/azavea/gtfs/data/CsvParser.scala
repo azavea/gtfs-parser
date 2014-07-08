@@ -25,7 +25,9 @@ class CsvParser[T](
   }
 
   override def hasNext: Boolean = {
-    line = reader.readLine()
+    do {
+      line = reader.readLine()
+    } while (line != null && line.trim == "")
     line != null
   }
 
