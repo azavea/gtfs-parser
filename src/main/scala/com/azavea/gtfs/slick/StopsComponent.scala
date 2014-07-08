@@ -11,7 +11,7 @@ trait StopsComponent {this: Profile =>
   class Stops(tag: Tag) extends Table[Stop](tag, "gtfs_stops") {
     def id = column[String]("stop_id", O.PrimaryKey)
     def name = column[String]("stop_name")
-    def desc = column[String]("stop_desc")
+    def desc = column[Option[String]]("stop_desc")
     def lat = column[Double]("stop_lat")
     def lon = column[Double]("stop_lon")
     def geom = column[Projected[Point]]("the_geom")

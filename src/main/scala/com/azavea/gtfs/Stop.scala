@@ -7,7 +7,7 @@ import geotrellis.feature._
 case class Stop (
   id: String,
   stop_name: String,
-  stop_desc: String,
+  stop_desc: Option[String],
   stop_lat: Double,
   stop_lon: Double,
   geom: Projected[Point]
