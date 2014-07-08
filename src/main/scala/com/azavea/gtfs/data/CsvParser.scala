@@ -9,7 +9,7 @@ class CsvParser[T](
   ) extends Iterator[String=>Option[String]] {
 
   def parse(s: String): Array[String] =
-    CsvParser.lineRegex.findAllIn(s).matchData.map(_.subgroups).flatten.toArray
+    CsvParser.lineRegex.findAllIn(s).matchData.map(_.group(0)).toArray
 
   val head = parse(reader.readLine()).map(_.trim)
   val idx = head.zip(0 until head.length).toMap
@@ -38,7 +38,7 @@ class CsvParser[T](
 }
 
 object CsvParser {
-  val lineRegex = """(?:^|,)"?((?<=")[^"]*|[^,"]*)"?(?=,|$)""".r
+  val lineRegex = """(?:(?<=")([^"]*)(?="))|(?<=,|^)([^,]*)(?=,|$)""".r
   def fromPath[T](path:String) = {
     new CsvParser(
       new BufferedReader( new InputStreamReader(
