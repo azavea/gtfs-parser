@@ -71,7 +71,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         stop_sequence = s("stop_sequence").get.toInt,
         arrival_time = s("arrival_time").get,
         departure_time = s("departure_time").get,
-        shape_dist_traveled = s("shape_dist_traveled").flatMap{ _ match {
+        shape_dist_traveled = s("shape_dist_traveled").flatMap{ _.trim match {
           case "" => None //We can have a column, but no value, sad
           case s => Some(s.toDouble)
         }}
