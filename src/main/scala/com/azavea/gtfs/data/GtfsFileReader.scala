@@ -86,7 +86,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
         (
           f("shape_id").get,
           f("shape_pt_lat").get.toDouble,
-          f("shape_pt_lat").get.toDouble,
+          f("shape_pt_lon").get.toDouble,
           f("shape_pt_sequence").get.toInt
         )
       }
