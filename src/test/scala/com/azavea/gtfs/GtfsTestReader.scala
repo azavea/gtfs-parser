@@ -20,9 +20,9 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getStops = List(
-    Stop("S1", "Stop 1", "First Stop", 0, 0, Point(0,0).withSRID(0)),
-    Stop("S2", "Stop 1", "First Stop", 10, 10, Point(10,10).withSRID(0)),
-    Stop("S3", "Stop 1", "First Stop", 10, 20, Point(10,20).withSRID(0))
+    Stop("S1", "Stop 1", None, 0, 0, Point(0,0).withSRID(0)),
+    Stop("S2", "Stop 2", None, 10, 10, Point(10,10).withSRID(0)),
+    Stop("S3", "Stop 3", Some("Stop"), 10, 20, Point(10,20).withSRID(0))
   )
 
   override def getRoutes = List(
