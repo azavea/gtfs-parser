@@ -13,17 +13,21 @@ import geotrellis.slick._
 class GtfsFileReader(dir:String) extends GtfsReader {
 
   override def getAgencies: Iterator[Agency] = {
-    for (s <- CsvParser.fromPath(dir + "/agency.txt"))
-    yield {
-      Agency(
-        id = s("agency_id"),
-        agency_name = s("agency_name").get,
-        agency_url = s("agency_url").get,
-        agency_timezone = s("agency_timezone").get,
-        agency_lang = s("agency_lang"),
-        agency_phone = s("agency_phone"),
-        agency_fare_url = s("agency_fare_url")
-      )
+    try {
+      for (s <- CsvParser.fromPath(dir + "/agency.txt"))
+      yield {
+        Agency(
+          id = s("agency_id"),
+          agency_name = s("agency_name").get,
+          agency_url = s("agency_url").get,
+          agency_timezone = s("agency_timezone").get,
+          agency_lang = s("agency_lang"),
+          agency_phone = s("agency_phone"),
+          agency_fare_url = s("agency_fare_url")
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 
@@ -111,28 +115,31 @@ class GtfsFileReader(dir:String) extends GtfsReader {
 
 
   def getCalendar = {
-    for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
-    yield {
-      ServiceCalendar(
-        service_id = c("service_id").get,
-        start_date = c("start_date").get,
-        end_date = c("end_date").get,
-        week = Array(
-          c("monday").get == "1",
-          c("tuesday").get == "1",
-          c("wednesday").get == "1",
-          c("thursday").get == "1",
-          c("friday").get == "1",
-          c("saturday").get == "1",
-          c("sunday").get == "1"
+    try { //calendar can be empty if calendar_dates.txt is present
+      for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
+      yield {
+        ServiceCalendar(
+          service_id = c("service_id").get,
+          start_date = c("start_date").get,
+          end_date = c("end_date").get,
+          week = Array(
+            c("monday").get == "1",
+            c("tuesday").get == "1",
+            c("wednesday").get == "1",
+            c("thursday").get == "1",
+            c("friday").get == "1",
+            c("saturday").get == "1",
+            c("sunday").get == "1"
+          )
         )
-      )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 
-
   def getCalendarDates = {
-    try {
+    try { //this file is optional
       for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
       yield {
         ServiceException(
