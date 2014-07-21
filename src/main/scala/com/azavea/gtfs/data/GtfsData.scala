@@ -14,6 +14,7 @@ import java.util
 import com.azavea.gtfs.util.{Interpolator, Interpolatable}
 import geotrellis.feature._
 import geotrellis.slick._
+import java.io.File
 
 /**
  * Contains cleaned and indexed GTFS data
@@ -81,7 +82,10 @@ class GtfsData(reader: GtfsReader) extends MemoryContextComponent {
 object GtfsData {
   implicit val StopTimeInterp = new Interpolatable[StopTime] {
     override def x(t1: StopTime): Double =
-      t1.shape_dist_traveled.get
+      t1.shape_dist_traveled match {
+        case Some (x) => x
+        case None => Double.NaN
+      }
 
     override def y(t1: StopTime): Double =
       t1.arrival_time.getMillis.toDouble
