@@ -3,19 +3,21 @@ package com.azavea.gtfs.data
 import java.io.{FileInputStream, InputStreamReader, BufferedReader}
 import java.nio.charset.Charset
 import org.apache.commons.io.input._
+import org.apache.commons.csv._
 
 class CsvParser[T](
     private val reader:BufferedReader
   ) extends Iterator[String=>Option[String]] {
 
-  def parse(s: String): Array[String] =
-    CsvParser.lineRegex.findAllIn(s).matchData.map(_.group(0)).toArray
-
-  val head = parse(reader.readLine()).map(_.trim)
+  val lines = {
+    val parser = new CSVParser(reader)
+    parser.getAllValues
+  }
+  val head = lines(0)
   val idx = head.zip(0 until head.length).toMap
 
-  var line: String = null
   var rec:Array[String] = null
+  var curLine = 1
 
   val getCol: String=>Option[String] = {name: String =>
     idx.get(name) match {
@@ -25,24 +27,21 @@ class CsvParser[T](
   }
 
   override def hasNext: Boolean = {
-    do {
-      line = reader.readLine()
-    } while (line != null && line.trim == "")
-    line != null
+    curLine < lines.length
   }
 
   override def next() = {
-    rec = parse(line)
+    rec = lines(curLine)
+    curLine += 1
     getCol
   }
 }
 
 object CsvParser {
-  val lineRegex = """(?:(?<=")([^"]*)(?="))|(?<=,|^)([^,]*)(?=,|$)""".r
   def fromPath[T](path:String) = {
     new CsvParser(
       new BufferedReader( new InputStreamReader(
-        new BOMInputStream(new FileInputStream(path), false)))
+        new BOMInputStream(new FileInputStream(path), false), "UTF-8"))
     )
   }
 

@@ -14,7 +14,8 @@ object GtfsparserBuild extends Build {
       // add other settings here
       libraryDependencies ++=
         Seq(
-          "org.scalaz" %% "scalaz-core" % "7.0.6",
+          "org.apache.servicemix.bundles" % "org.apache.servicemix.bundles.commons-csv" % "1.0-r706900_3",
+          
           "org.scalatest" % "scalatest_2.10" % "2.1.0" % "test",
           "com.github.nscala-time" %% "nscala-time" % "0.8.0",
           "com.typesafe.slick" %% "slick" % "2.0.1",
