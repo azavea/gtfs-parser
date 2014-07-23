@@ -2,7 +2,7 @@ package com.azavea.gtfs
 
 import math._
 import geotrellis.slick._
-import geotrellis.feature._
+import geotrellis.vector._
 
 case class Stop (
   id: String,

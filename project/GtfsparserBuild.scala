@@ -24,7 +24,7 @@ object GtfsparserBuild extends Build {
 
           "commons-io" % "commons-io" % "2.4",
 
-          "com.azavea.geotrellis" %% "geotrellis-feature" % "0.10.0-SNAPSHOT",
+          "com.azavea.geotrellis" %% "geotrellis-vector" % "0.10.0-SNAPSHOT",
           "com.azavea.geotrellis" %% "geotrellis-proj4" % "0.10.0-SNAPSHOT",
           "com.azavea.geotrellis" %% "geotrellis-slick" % "0.10.0-SNAPSHOT",
 

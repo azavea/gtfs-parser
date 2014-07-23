@@ -7,7 +7,7 @@ import com.azavea.gtfs.slick.DAO
 import scala.slick.jdbc.JdbcBackend._
 import geotrellis.slick._
 import geotrellis.proj4._
-import geotrellis.feature.reproject._
+import geotrellis.vector.reproject._
 import geotrellis.slick._
 
 class PhillySpec extends FlatSpec with Matchers {

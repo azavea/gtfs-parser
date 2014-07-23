@@ -2,7 +2,7 @@ package com.azavea.gtfs
 
 import org.scalatest._
 import geotrellis.slick._
-import geotrellis.feature._
+import geotrellis.vector._
 
 class StopSpec extends FlatSpec with Matchers {
   val s1 = Stop("S1", "Stop 1", None, 0, 0, Point(0,0).withSRID(0))

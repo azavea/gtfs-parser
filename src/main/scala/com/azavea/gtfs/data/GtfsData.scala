@@ -12,7 +12,7 @@ import com.azavea.gtfs.ServiceCalendar
 import com.azavea.gtfs.Frequency
 import java.util
 import com.azavea.gtfs.util.{Interpolator, Interpolatable}
-import geotrellis.feature._
+import geotrellis.vector._
 import geotrellis.slick._
 import java.io.File
 

@@ -1,7 +1,7 @@
 package com.azavea.gtfs.slick
 
 import com.azavea.gtfs._
-import geotrellis.feature._
+import geotrellis.vector._
 import geotrellis.slick._
 
 trait StopsComponent {this: Profile =>

@@ -2,7 +2,7 @@ package com.azavea.gtfs.data
 
 import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
-import geotrellis.feature._
+import geotrellis.vector._
 import geotrellis.slick._
 
 
