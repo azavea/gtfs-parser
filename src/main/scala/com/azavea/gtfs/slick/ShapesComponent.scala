@@ -17,6 +17,9 @@ trait ShapesComponent {this: Profile =>
   val shapesTable = TableQuery[Shapes]
 
   object shapes {
+    def all(implicit session: Session): List[TripShape] =
+      shapesTable.list
+
     def delete(id: String)(implicit session: Session): Boolean =
       shapesTable.filter(_.id === id).delete > 0
 

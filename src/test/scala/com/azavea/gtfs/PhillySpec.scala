@@ -13,7 +13,7 @@ import geotrellis.slick._
 class PhillySpec extends FlatSpec with Matchers {
 
   val dao = new DAO
-  val db = Database.forURL("jdbc:postgresql:philly_gtfs", driver = "org.postgresql.Driver")
+  val db = Database.forURL("jdbc:postgresql:gtfs", driver = "org.postgresql.Driver")
 
   "Philly" should "be able to move gtfs from file to DB" in {
       val data = GtfsData.fromFile("data/asheville")

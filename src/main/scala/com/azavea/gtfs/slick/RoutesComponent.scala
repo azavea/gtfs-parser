@@ -23,6 +23,8 @@ trait RoutesComponent {this: Profile =>
   val routesTable = TableQuery[Routes]
 
   object routes {
+    def all(implicit session: Session): List[Route] =
+      routesTable.list
 
     def delete(id: String)(implicit session: Session): Boolean =
       routesTable.filter(_.id === id).delete > 0

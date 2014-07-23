@@ -6,7 +6,7 @@ import data._
 
 
 class TripSpec extends FlatSpec with Matchers {
-  val data = new GtfsData(new GtfsTestReader())
+  val data = GtfsData.fromReader(new GtfsTestReader())
 
   def printTrip(trip: ScheduledTrip){
     println(s"TRIP: ${trip.trip_id} ${trip.stops}")

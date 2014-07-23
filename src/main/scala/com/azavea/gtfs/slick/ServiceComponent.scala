@@ -59,6 +59,8 @@ trait ServiceComponent {this: Profile =>
   val calendarDatesTable = TableQuery[CalendarDates]
 
   object service {
+    def all(implicit session: Session): List[Service] = full
+
     /** Get full service ... for all time */
     def full(implicit session: Session): List[Service] = {
       Service.collate(calendarsTable.list, calendarDatesTable.list).toList

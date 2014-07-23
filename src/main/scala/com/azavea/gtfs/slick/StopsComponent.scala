@@ -21,6 +21,9 @@ trait StopsComponent {this: Profile =>
   val stopsTable = TableQuery[Stops]
 
   object stops {
+    def all(implicit session: Session): List[Stop] =
+      stopsTable.list
+
     def delete(id: String)(implicit session: Session): Boolean =
       stopsTable.filter(_.id === id).delete > 0
 

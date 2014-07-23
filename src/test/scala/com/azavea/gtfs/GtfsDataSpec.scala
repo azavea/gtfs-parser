@@ -7,7 +7,7 @@ import data._
 
 class GtfsDataSpec extends FlatSpec with Matchers {
 
-  val data = new GtfsData(new GtfsTestReader)
+  val data = GtfsData.fromReader(new GtfsTestReader)
 
   "GtfsTestData" should "have a context" in {
     import data.context._

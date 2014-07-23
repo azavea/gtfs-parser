@@ -103,7 +103,7 @@ object Trip {
    * @return
    */
   def compress(trips: Seq[Trip], threshold: Int = 2): Array[Trip] = {
-   println("Binning trips...")
+   //println("Binning trips...")
    var compressed:Long = 0
 
    val bins = bin(trips)
@@ -136,7 +136,7 @@ object Trip {
         }
       }
     }
-    println("Total Compressed: " + compressed)
+    //println("Total Compressed: " + compressed)
     ret.toArray
   }
 }

@@ -14,5 +14,5 @@ trait GtfsReader {
   //Since "shapes" will be rendered to lines, there is no point to have a dedicated class for this
   def getShapes: Iterator[(String, Double, Double, Int)]
 
-  def toGtfsData:GtfsData = new GtfsData(this)
+  def toGtfsData:GtfsData = GtfsData.fromReader(this)
 }

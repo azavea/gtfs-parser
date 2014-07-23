@@ -89,6 +89,15 @@ trait TripsComponent {this: Profile with StopsComponent with ShapesComponent wit
       }
     }
 
+    def all(implicit session: Session): List[Trip] =
+      tripsTable.list.map{ buildTrip }
+
+    def allStopTimes(implicit session: Session): List[StopTime] =
+      stopTimesTable.list
+
+    def allFrequencies(implicit session: Session): List[Frequency] =
+      frequencyTable.list
+
     def get(id: TripId)(implicit session: Session): Option[Trip] = {
       tripById(id).firstOption.map { buildTrip }
     }

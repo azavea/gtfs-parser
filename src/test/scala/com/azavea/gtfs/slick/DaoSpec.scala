@@ -10,32 +10,11 @@ import com.github.tototoshi.slick.PostgresJodaSupport
 import com.azavea.gtfs.data.GtfsData
 import geotrellis.slick._
 
-class AlphaSpec extends FlatSpec with Matchers {
+class DaoSpec extends FlatSpec with Matchers {
   val dao = new DAO
-  val db = Database.forURL("jdbc:postgresql:chicago_gtfs", driver = "org.postgresql.Driver")
+  val db = Database.forURL("jdbc:postgresql:gtfs", driver = "org.postgresql.Driver")
 
-  "One" should "be able to get a trip record from the database" in {
-    db withSession { implicit session: Session =>
-      dao.trips("426070238825")
-      dao.routes("111A")
-      dao.service.full
-
-      val trips = dao.trips
-      val trip = trips("426070238825")
-
-      dao.routes("111A").get
-    }
-  }
-
-  it should "find context convenient to use" in {
-    db withSession { implicit session: Session =>
-      import dao.context._  
-      val route = dao.routes("111A").get
-      val trips = route.getTrips
-    }
-  }
-
-  it should "be able to insert a trip" in {
+  "DAO" should "be able to insert a trip" in {
     val trip1 = Trip("T3","SR1","1",None,
       List(
         StopTime("1","T3", 1, 0.seconds, 1.minute),
@@ -50,6 +29,13 @@ class AlphaSpec extends FlatSpec with Matchers {
     }
   }
 
+  it should "be able to produce GtfsData" in {
+    db withSession { implicit session: Session =>
+      val data = dao.toGtfsData
+      //we just inserted some up top, at least they should be there
+      data.trips should not be empty
+    }
+  }
   it should "be able to pull trips on a given day from a service" in {
     db withSession { implicit s: Session =>
       import dao.context._

@@ -23,6 +23,9 @@ trait AgencyComponent {this: Profile =>
   val agenciesTable = TableQuery[Agencies]
 
   object agencies {
+    def all(implicit session: Session): List[Agency] =
+      agenciesTable.list
+
     def delete(id: Option[String])(implicit session: Session): Boolean =
       agenciesTable.filter(_.id === id).delete > 0
 
