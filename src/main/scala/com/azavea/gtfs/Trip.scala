@@ -25,20 +25,23 @@ case class Trip (
   frequency: Option[Frequency] = None,
   shape_id: Option[String] = None
 ) {
-  def apply(date: LocalDate): Stream[ScheduledTrip] = {
+  def apply(date: LocalDate): Array[ScheduledTrip] = {
     frequency match {
-      case Some(frequency) =>
+      case Some(frequency) => {
         val offset = stopTimes.head.arrival_time
-        for (dt: LocalDateTime <- frequency.toStream(date))
+        for (dtt: LocalDateTime <- frequency(date))
         yield
           new ScheduledTrip(
             rec = this,
-            stops = stopTimes.view.map{ _.toStopDateTime(dt, offset) }
+            stops = stopTimes.map {
+              _.toStopDateTime(dtt, offset)
+            }.toArray
           )
+      }.toArray
       case None =>
-        Stream(new ScheduledTrip(
+        Array(new ScheduledTrip(
           rec = this,
-          stops = stopTimes.view.map{ _.toStopDateTime(date)}
+          stops = stopTimes.map{ _.toStopDateTime(date)}.toArray
         ))
     }
   }
