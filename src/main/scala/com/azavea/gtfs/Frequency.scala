@@ -15,6 +15,20 @@ case class Frequency (
   end_time: Period,
   headway: Duration
 ) {
+
+  def apply(dt: LocalDate): Iterator[LocalDateTime] = new Iterator[LocalDateTime] {
+    var start = dt.toLocalDateTime(LocalTime.Midnight) + start_time
+    val end   = dt.toLocalDateTime(LocalTime.Midnight) + end_time
+
+    override def hasNext: Boolean = start <= end
+
+    override def next(): LocalDateTime = {
+      val ret = start
+      start += headway
+      ret
+    }
+  }
+
   def toStream(dt: LocalDate): Stream[LocalDateTime] = {
     def timeSteps(start: LocalDateTime, end: LocalDateTime, step: Duration): Stream[LocalDateTime] = {
       if (start <= end) //I'm introducing this Boolean that has nothing to do with the computation, ARGH!
