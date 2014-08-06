@@ -16,6 +16,8 @@ trait SlickContextComponent { self: Profile with TripsComponent with StopsCompon
   object context {
     implicit class RichRoute(r: Route)(implicit s: Session) {
       def getTrips: List[Trip] = trips.getForRoute(r.id)
+
+      def getTripsOn(dt: LocalDate)(implicit s: Session): Seq[Trip] = ???
     }
 
     implicit class RichStopTime(st: StopTime)(implicit s: Session) {

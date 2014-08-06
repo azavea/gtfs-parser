@@ -26,4 +26,23 @@ class CalendarSpec extends FlatSpec with Matchers {
     saturday.getDayOfWeek should equal (6)
     cal.activeOn(saturday) should equal (true)
   }
+
+  
+  it should "filter philly rail by date" in {
+    val phillyRail = GtfsData.fromFile("data/philly_rail")
+    
+    import phillyRail.context._
+    
+    val airRoute = phillyRail.routes.filter(_.id == "AIR").head
+
+    val date = new LocalDate(2013,1,6)
+    //These are just trips with time offsets
+    val airTrips = airRoute.getTripsOn(date)
+
+    //This will give me list of lists of trips resolved to a DateTime
+    val timedTrips = airTrips.map(trip => trip(date))
+    
+    airTrips should not be empty
+    timedTrips should not be empty
+  }
 }

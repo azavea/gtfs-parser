@@ -1,5 +1,7 @@
 package com.azavea.gtfs
 
+import com.github.nscala_time.time.Imports._
+
 /**
  * Trip that is scheduled to happen on a concrete date and time
  *
@@ -8,8 +10,10 @@ package com.azavea.gtfs
  */
 class ScheduledTrip (
   val rec: Trip,
-  val stops: Seq[StopDateTime]
+  val stops: Array[StopDateTime]
 ) {
   def trip_id = rec.id
+  def starts: LocalDateTime = stops.head.arrival
+  def ends: LocalDateTime = stops.last.departure
 }
 

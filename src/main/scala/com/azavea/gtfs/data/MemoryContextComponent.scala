@@ -1,7 +1,9 @@
 package com.azavea.gtfs.data
 
 import com.azavea.gtfs._
+import com.azavea.gtfs.util.DateIterator
 import com.github.nscala_time.time.Imports._
+import org.joda.time.Days
 
 
 /**
@@ -14,6 +16,35 @@ trait MemoryContextComponent { self: GtfsData =>
   object context {
     implicit class RichRoute(r: Route) {
       def getTrips: Seq[Trip] = tripsByRoute(r.id)
+
+      /** Get Trip template records that are active for this route on a day 
+       * note: This is not the same as all trips that will actually happen */
+      def getTripsOn(dt: LocalDate): Seq[Trip] = {
+        for {
+          s <- service
+          trip <- s.getTripsOn(dt) if trip.route_id == r.id
+        } yield {
+          trip
+        }
+      }
+
+      /**
+       * Trips that are scheduled to START between two times
+       */
+      def getScheduledTripsBetween(a: LocalDateTime, b: LocalDateTime): Seq[ScheduledTrip] = {
+        for {
+          dt <- DateIterator(a, b)
+          s <- service
+          trip <- s.getTripsOn(dt) if trip.route_id == r.id
+          st <- trip(dt) if st.starts.isAfter(a)
+        } yield {
+          st
+        }
+      }.toSeq
+
+      /** Fully resole Trip templates to Scheduled Trips for this route */
+      def getScheduledTripsOn(dt: LocalDate): Seq[ScheduledTrip] =
+        getTripsOn(dt).map(_.apply(dt)).flatten
     }
 
     implicit class RichStopTime(st: StopTime) {
