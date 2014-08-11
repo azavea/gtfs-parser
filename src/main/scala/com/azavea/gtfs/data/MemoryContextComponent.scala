@@ -36,7 +36,7 @@ trait MemoryContextComponent { self: GtfsData =>
           dt <- DateIterator(a, b)
           s <- service
           trip <- s.getTripsOn(dt) if trip.route_id == r.id
-          st <- trip(dt) if st.starts.isAfter(a)
+          st <- trip(dt) if st.starts.isAfter(a) && st.starts.isBefore(b)
         } yield {
           st
         }
