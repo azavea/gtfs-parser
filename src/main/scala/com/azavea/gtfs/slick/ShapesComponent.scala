@@ -14,7 +14,7 @@ trait ShapesComponent {this: Profile =>
 
     def * = (id, geom)  <> (TripShape.tupled, TripShape.unapply)
   }
-  val shapesTable = TableQuery[Shapes]
+  def shapesTable = TableQuery[Shapes]
 
   object shapes {
     def all(implicit session: Session): List[TripShape] =

@@ -18,7 +18,7 @@ trait StopsComponent {this: Profile =>
 
     def * = (id, name, desc, lat, lon, geom)  <> (Stop.tupled, Stop.unapply)
   }
-  val stopsTable = TableQuery[Stops]
+  def stopsTable = TableQuery[Stops]
 
   object stops {
     def all(implicit session: Session): List[Stop] =
