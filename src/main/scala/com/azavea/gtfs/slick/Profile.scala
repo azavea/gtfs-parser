@@ -13,6 +13,7 @@ trait Profile {
   val profile = PostgresDriver
   val joda = new GenericJodaSupport(profile)
   val gis = new PostGisProjectionSupport(profile)
+  var geomColumnName = "the_geom"
 
   import profile.simple._
 

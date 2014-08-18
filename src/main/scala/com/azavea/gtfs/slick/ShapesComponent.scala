@@ -10,11 +10,11 @@ trait ShapesComponent {this: Profile =>
 
   class Shapes(tag: Tag) extends Table[TripShape](tag, "gtfs_shape_geoms") {
     def id = column[String]("shape_id", O.PrimaryKey)
-    def geom = column[Projected[Line]]("the_geom")
+    def geom = column[Projected[Line]](geomColumnName)
 
     def * = (id, geom)  <> (TripShape.tupled, TripShape.unapply)
   }
-  val shapesTable = TableQuery[Shapes]
+  def shapesTable = TableQuery[Shapes]
 
   object shapes {
     def all(implicit session: Session): List[TripShape] =
