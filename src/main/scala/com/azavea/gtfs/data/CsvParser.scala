@@ -9,15 +9,12 @@ class CsvParser[T](
     private val reader:BufferedReader
   ) extends Iterator[String=>Option[String]] {
 
-  val lines = {
-    val parser = new CSVParser(reader)
-    parser.getAllValues
-  }
-  val head = lines(0)
+  val parser = new CSVParser(reader)
+  
+  val head = parser.getLine //this is the first line
   val idx = head.zip(0 until head.length).toMap
 
   var rec:Array[String] = null
-  var curLine = 1
 
   val getCol: String=>Option[String] = {name: String =>
     idx.get(name) match {
@@ -27,12 +24,11 @@ class CsvParser[T](
   }
 
   override def hasNext: Boolean = {
-    curLine < lines.length
+    rec = parser.getLine
+    rec != null
   }
 
   override def next() = {
-    rec = lines(curLine)
-    curLine += 1
     getCol
   }
 }

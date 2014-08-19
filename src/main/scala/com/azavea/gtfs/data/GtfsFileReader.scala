@@ -17,7 +17,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       for (s <- CsvParser.fromPath(dir + "/agency.txt"))
       yield {
         Agency(
-          id = s("agency_id"),
+          id = s("agency_id").map(_.intern),
           agency_name = s("agency_name").get,
           agency_url = s("agency_url").get,
           agency_timezone = s("agency_timezone").get,
@@ -37,7 +37,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       val lat = s("stop_lat").get.toDouble
       val lng = s("stop_lon").get.toDouble
       Stop(
-        id = s("stop_id").get,
+        id = s("stop_id").get.intern,
         stop_name = s("stop_name").get,
         stop_desc = s("stop_desc"),
         stop_lat = lat,
@@ -52,8 +52,8 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (r <- CsvParser.fromPath(dir + "/routes.txt"))
     yield {
       Route(
-        id = r("route_id").get,
-        agency_id = r("agency_id"),
+        id = r("route_id").get.intern,
+        agency_id = r("agency_id").map(_.intern),
         route_short_name = r("route_short_name").get,
         route_long_name = r("route_long_name").get,
         route_desc = r("route_desc"),
@@ -70,8 +70,8 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (s <- CsvParser.fromPath(dir + "/stop_times.txt"))
     yield {
       StopTime(
-        stop_id = s("stop_id").get,
-        trip_id = s("trip_id").get,
+        stop_id = s("stop_id").get.intern,
+        trip_id = s("trip_id").get.intern,
         stop_sequence = s("stop_sequence").get.toInt,
         arrival_time = s("arrival_time").get,
         departure_time = s("departure_time").get,
@@ -88,7 +88,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       for (f <- CsvParser.fromPath(dir + "/shapes.txt"))
       yield {
         (
-          f("shape_id").get,
+          f("shape_id").get.intern,
           f("shape_pt_lat").get.toDouble,
           f("shape_pt_lon").get.toDouble,
           f("shape_pt_sequence").get.toInt
@@ -103,10 +103,10 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (t <- CsvParser.fromPath(dir + "/trips.txt"))
     yield {
       Trip(
-        id = t("trip_id").get,
-        service_id = t("service_id").get,
-        route_id = t("route_id").get,
-        shape_id = t("shape_id"),
+        id = t("trip_id").get.intern,
+        service_id = t("service_id").get.intern,
+        route_id = t("route_id").get.intern,
+        shape_id = t("shape_id").map(_.intern),
         trip_headsign = t("trip_headsign"),
         stopTimes = Nil
       )
@@ -119,7 +119,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
       yield {
         ServiceCalendar(
-          service_id = c("service_id").get,
+          service_id = c("service_id").get.intern,
           start_date = c("start_date").get,
           end_date = c("end_date").get,
           week = Array(
@@ -143,7 +143,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
       yield {
         ServiceException(
-          service_id = c("service_id").get,
+          service_id = c("service_id").get.intern,
           date = c("date").get,
           exception = if (c("exception_type") == "1") 'Add else 'Remove
         )
@@ -159,7 +159,7 @@ class GtfsFileReader(dir:String) extends GtfsReader {
       for (f <- CsvParser.fromPath(dir + "/frequencies.txt"))
       yield {
         Frequency(
-          trip_id = f("trip_id").get,
+          trip_id = f("trip_id").get.intern,
           start_time = f("start_time").get,
           end_time = f("end_time").get,
           headway = f("headway_secs").get.toInt.seconds
