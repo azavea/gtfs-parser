@@ -1,13 +1,16 @@
 package com.azavea.gtfs
 
 import math._
+import geotrellis.slick._
+import geotrellis.vector._
 
 case class Stop (
-  stop_id: StopId,
+  id: String,
   stop_name: String,
-  stop_desc: String,
+  stop_desc: Option[String],
   stop_lat: Double,
-  stop_lon: Double
+  stop_lon: Double,
+  geom: Projected[Point]
 ) {
 
   /** Euclidean distance between stops*/

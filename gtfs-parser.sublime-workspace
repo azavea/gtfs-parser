@@ -1,0 +1,647 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Postg",
+				"PostgresDriver"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/test/scala/com/azavea/gtfs/PhillySpec.scala",
+			"settings":
+			{
+				"buffer_size": 2946,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/test/scala/com/azavea/gtfs/slick/AlphaSpec.scala",
+			"settings":
+			{
+				"buffer_size": 1806,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main/scala/com/azavea/gtfs/slick/TripsComponent.scala",
+			"settings":
+			{
+				"buffer_size": 4658,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"git log",
+				"Git: Log: diffs of changes last 30"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"git ",
+				"Git: Fetch"
+			],
+			[
+				"git commit",
+				"Git: Commit history"
+			],
+			[
+				"git",
+				"Git: Commit history"
+			],
+			[
+				"git:",
+				"Git: Commit history"
+			]
+		],
+		"width": 629.0
+	},
+	"console":
+	{
+		"height": 382.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"exit",
+			"run",
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/eugene/projects/gtfs-parser/data/philly_rail/agency.txt",
+		"/Users/eugene/projects/gtfs-parser/src/test/scala/com/azavea/gtfs/PhillySpec.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/package.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalatest_2.10-2.1.0/org/scalatest/Specs.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/SpecializableCompanion.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalatest_2.10-2.1.0/org/scalatest/Spec.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/specialized.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/Specializable.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/collection/SeqProxy.scala",
+		"/Users/eugene/projects/gtfs-parser/sbt",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalaz-core_2.10-7.0.6/scalaz/Tag.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalaz-core_2.10-7.0.6/scalaz/Map.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalaz-core_2.10-7.0.6/scalaz/Kan.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/Int.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/App.scala",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scalaz-core_2.10-7.0.6/scalaz/Id.scala",
+		"/Users/eugene/projects/gtfs-parser/.gitignore",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/slick/TripsComponent.scala",
+		"/Users/eugene/.profile",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/TripShape.scala",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/trips.txt",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/concurrent/TaskRunner.scala",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/transfers.txt",
+		"/Users/eugene/projects/gtfs-parser/target/External Libraries/scala-library-2.10.3/scala/collection/parallel/immutable/ParHashMap.scala",
+		"/Users/eugene/projects/gtfs-parser/gtfs-parser.sublime-project",
+		"/Users/eugene/projects/gtfs-parser/src/test/scala/com/azavea/gtfs/GtfsTestReader.scala",
+		"/Users/eugene/projects/gtfs-parser/src/test/scala/com/azavea/gtfs/TripSpec.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/Trip.scala",
+		"/Users/eugene/projects/gtfs-parser/target/scala-2.10/api/com/azavea/gtfs/slick/TripsComponent$trips$.html",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/Stop.scala",
+		"/Users/eugene/projects/gtfs-parser/.idea/libraries/SBT__postgresql_postgresql_9_1_901_jdbc4.xml",
+		"/Users/eugene/projects/gtfs-parser/src/test/scala/com/azavea/gtfs/StopSpec.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/slick/AgencyComponent.scala",
+		"/Users/eugene/projects/gtfs-parser/src/test/scala/com/azavea/gtfs/CalendarSpec.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/data/GtfsFileReader.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/Agency.scala",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/agency.txt",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/slick/ServiceComponent.scala",
+		"/Users/eugene/projects/gtfs-parser/.idea/copyright/profiles_settings.xml",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/calendar.txt",
+		"/Users/eugene/projects/gtfs-parser/.idea/compiler.xml",
+		"/Users/eugene/projects/gtfs-parser/target/scala-2.10/cache/gtfs-parser/test/succeeded_tests",
+		"/Users/eugene/projects/gtfs-parser/target/scala-2.10/api/lib/template.css",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/feed_info.txt",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/frequencies.txt",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/data/GtfsReader.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/ServiceCalendar.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/Service.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/ServiceException.scala",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/stops.txt",
+		"/Users/eugene/projects/gtfs-parser/data/asheville/stop_times.txt",
+		"/Users/eugene/projects/gtfs-parser/project/GtfsparserBuild.scala",
+		"/Users/eugene/projects/gtfs-parser/src/main/scala/com/azavea/gtfs/slick/SlickContext.scala",
+		"/Users/eugene/projects/gtfs-parser/project/build.properties",
+		"/Users/eugene/projects/gtfs-parser/.idea/modules/gtfs-parser-build.iml",
+		"/Users/eugene/projects/GeoSlick/.idea/workspace.xml",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/io/WKTReader.java",
+		"/Users/eugene/projects/GeoSlick/project/Build.scala",
+		"/Users/eugene/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/eugene/projects/GeoSlick/target/streams/compile/$global/$global/data",
+		"/Users/eugene/projects/GeoSlick/target/streams/test/$global/$global/data",
+		"/Users/eugene/projects/GeoSlick/src/test/scala/geoslick/Data.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/DynaTags.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/util/automata/DetWordAutom.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/Doxyfile",
+		"/Users/eugene/projects/GeoSlick/project/plugins.sbt",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/SpecializableCompanion.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/Spec.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/specialized.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/Specializable.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/collection/SeqProxy.scala",
+		"/Users/eugene/projects/GeoSlick/sbt",
+		"/Users/eugene/projects/GeoSlick/project/build.sbt",
+		"/Users/eugene/projects/GeoSlick/project/build.properties",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/PostgisDriver.scala",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/PostGISSupport.scala",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/PostGISExtensions.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/postgresql-9.1-901.jdbc4/org/postgresql/copy/PGCopyOutputStream.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/math/PartialOrdering.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/exceptions/TestPendingException.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/exceptions/TestFailedException.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/exceptions/TestCanceledException.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/TestRerunner.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/TestData.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/testng/TestNGSuite.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/xml/TypeSymbol.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatestexamples/easymock/ThrowableEquals.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/throws.scala",
+		"/Users/eugene/projects/GeoSlick/src/test/scala/geoslick/PostgisSpec.scala",
+		"/Users/eugene/projects/GeoSlick/geoslick.sublime-project",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/collection/GenIterable.scala",
+		"/Users/eugene/projects/GeoSlick/.gitignore",
+		"/Users/eugene/projects/GeoSlick/src/test/scala/geoslick/data.scala",
+		"/Users/eugene/projects/GeoSlick/build.sbt",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/postgis.scala",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/extension.scala",
+		"/Users/eugene/projects/GeoSlick/src/main/scala/geoslick/PostGISExtensions",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/lifted/ColumnBase.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/lifted/ExtensionMethods.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/lifted/AbstractTable.scala",
+		"/Users/eugene/projects/azavea/geotrellis-site/sbt",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/jdbc/meta/MSuperTable.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/driver/BasicTableComponent.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/exceptions/TableDrivenPropertyCheckFailedException.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/collection/mutable/HashTable.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/prop/TableDrivenPropertyChecks.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/prop/TableFor1.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/prop/Tables.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scalatest_2.10.0-2.0.M5/org/scalatest/TagAnnotation.java",
+		"/Users/eugene/tmp/mkscaladocset/GenDBCommands.scala",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/scala-library-2.10.0/scala/runtime/BoxedUnit.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/operation/polygonize/PolygonizeEdge.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/geom/Polygonal.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/operation/overlay/PolygonBuilder.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/geom/util/PolygonExtracter.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/geom/Polygon.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/operation/polygonize/Polygonizer.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/awt/PolygonShape.java",
+		"/Users/eugene/projects/GeoSlick/target/External Libraries/jts-1.12/com/vividsolutions/jts/algorithm/locate/PointOnGeometryLocator.java",
+		"/Users/eugene/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/eugene/.sbt/plugins/plugins.sbt",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/Dimension.scala",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/package.scala",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/json/JsonFeatureCollection.scala",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/json/FeatureFormats.scala",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/Feature.scala",
+		"/Users/eugene/projects/azavea/geotrellis/feature/src/main/scala/geotrellis/new_feature/Factory.scala",
+		"/Users/eugene/projects/github/spray/spray-httpx/src/main/scala/spray/httpx/Json4sSupport.scala"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"import geotellis.slick._",
+			"import geoslick._",
+			"delete",
+			"fromBytes",
+			"WKTWriter",
+			"WKTReader",
+			"fromLiteral",
+			"jts",
+			"fromLiteral",
+			"asInstanceOf",
+			"multipl",
+			"LineString",
+			"ATown",
+			"distance",
+			"INTERSECTS",
+			"BoxIntersects",
+			"GeomFromGML",
+			"POLYGON"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"import geotrellis.slick._",
+			"import geotellis.slick._",
+			"City."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/test/scala/com/azavea/gtfs/PhillySpec.scala",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2946,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2735,
+								2735
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close"
+							],
+							"syntax": "Packages/Scala/Scala.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 500.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/test/scala/com/azavea/gtfs/slick/AlphaSpec.scala",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1806,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close"
+							],
+							"syntax": "Packages/Scala/Scala.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/main/scala/com/azavea/gtfs/slick/TripsComponent.scala",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4658,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Scala/Scala.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sbt":
+	{
+		"height": 0.0
+	},
+	"output.sbt_error":
+	{
+		"height": 0.0
+	},
+	"project": "gtfs-parser.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"philly",
+				"gtfs-parser/src/test/scala/com/azavea/gtfs/PhillySpec.scala"
+			],
+			[
+				"tripscomp",
+				"gtfs-parser/src/main/scala/com/azavea/gtfs/slick/TripsComponent.scala"
+			],
+			[
+				"phily",
+				"gtfs-parser/src/test/scala/com/azavea/gtfs/PhillySpec.scala"
+			],
+			[
+				"trips",
+				"main/scala/com/azavea/gtfs/slick/TripsComponent.scala"
+			],
+			[
+				"tripscompon",
+				"src/main/scala/com/azavea/gtfs/slick/TripsComponent.scala"
+			],
+			[
+				"agency",
+				"src/main/scala/com/azavea/gtfs/slick/AgencyComponent.scala"
+			],
+			[
+				"calendarspec",
+				"src/test/scala/com/azavea/gtfs/CalendarSpec.scala"
+			],
+			[
+				"testreader",
+				"src/test/scala/com/azavea/gtfs/GtfsTestReader.scala"
+			],
+			[
+				"fileread",
+				"src/main/scala/com/azavea/gtfs/data/GtfsFileReader.scala"
+			],
+			[
+				"servicecom",
+				"src/main/scala/com/azavea/gtfs/slick/ServiceComponent.scala"
+			],
+			[
+				"stop.",
+				"src/main/scala/com/azavea/gtfs/Stop.scala"
+			],
+			[
+				"trip.scal",
+				"src/main/scala/com/azavea/gtfs/Trip.scala"
+			],
+			[
+				"build",
+				"project/GtfsparserBuild.scala"
+			],
+			[
+				"data",
+				"GeoSlick/src/test/scala/geoslick/Data.scala"
+			],
+			[
+				"postgisspec",
+				"GeoSlick/src/test/scala/geoslick/PostgisSpec.scala"
+			],
+			[
+				"postgis",
+				"GeoSlick/src/test/scala/geoslick/PostgisSpec.scala"
+			],
+			[
+				"table.scala",
+				"External Libraries/slick_2.10.0-RC5-0.11.2/scala/slick/lifted/AbstractTable.scala"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"wkt",
+				"wkt"
+			],
+			[
+				"wktreader",
+				"WKTReader"
+			],
+			[
+				"WKTreader",
+				"WKTReader"
+			],
+			[
+				"Azimuth",
+				"Azimuth"
+			],
+			[
+				"data",
+				"data"
+			],
+			[
+				"Postgisa",
+				"PostGISAssistants"
+			],
+			[
+				"ExtensionMethods",
+				"ColumnExtensionMethods"
+			]
+		],
+		"width": 392.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 180.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

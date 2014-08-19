@@ -2,6 +2,8 @@ package com.azavea.gtfs.data
 
 import com.azavea.gtfs._
 import com.github.nscala_time.time.Imports._
+import geotrellis.vector._
+import geotrellis.slick._
 
 
 /**
@@ -9,15 +11,38 @@ import com.github.nscala_time.time.Imports._
  * @param dir directory containing the files
  */
 class GtfsFileReader(dir:String) extends GtfsReader {
+
+  override def getAgencies: Iterator[Agency] = {
+    try {
+      for (s <- CsvParser.fromPath(dir + "/agency.txt"))
+      yield {
+        Agency(
+          id = s("agency_id").map(_.intern),
+          agency_name = s("agency_name").get,
+          agency_url = s("agency_url").get,
+          agency_timezone = s("agency_timezone").get,
+          agency_lang = s("agency_lang"),
+          agency_phone = s("agency_phone"),
+          agency_fare_url = s("agency_fare_url")
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
+    }
+  }
+
   override def getStops = {
     for (s <- CsvParser.fromPath(dir + "/stops.txt"))
     yield {
+      val lat = s("stop_lat").get.toDouble
+      val lng = s("stop_lon").get.toDouble
       Stop(
-        stop_id = s("stop_id"),
-        stop_name = s("stop_name"),
+        id = s("stop_id").get.intern,
+        stop_name = s("stop_name").get,
         stop_desc = s("stop_desc"),
-        stop_lat = s("stop_lat").toDouble,
-        stop_lon = s("stop_lon").toDouble
+        stop_lat = lat,
+        stop_lon = lng,
+        geom = Point(lng, lat).withSRID(4326)
       )
     }
   }
@@ -27,12 +52,12 @@ class GtfsFileReader(dir:String) extends GtfsReader {
     for (r <- CsvParser.fromPath(dir + "/routes.txt"))
     yield {
       Route(
-        route_id = r("route_id"),
-        agency_id = r("agency_id"),
-        route_short_name = r("route_short_name"),
-        route_long_name = r("route_long_name"),
+        id = r("route_id").get.intern,
+        agency_id = r("agency_id").map(_.intern),
+        route_short_name = r("route_short_name").get,
+        route_long_name = r("route_long_name").get,
         route_desc = r("route_desc"),
-        route_type = RouteType(r("route_type").toInt),
+        route_type = RouteType(r("route_type").get.toInt),
         route_url = r("route_url"),
         route_color = r("route_color"),
         route_text_color = r("route_text_color")
@@ -44,26 +69,44 @@ class GtfsFileReader(dir:String) extends GtfsReader {
   override def getStopTimes = {
     for (s <- CsvParser.fromPath(dir + "/stop_times.txt"))
     yield {
-      StopTimeRec(
-        stop_id = s("stop_id"),
-        trip_id = s("trip_id"),
-        stop_sequence = s("stop_sequence").toInt,
-        arrival_time = s("arrival_time"),
-        departure_time = s("departure_time"),
-        shape_dist_traveled = s("shape_dist_traveled").toDouble,
-        stop = null
+      StopTime(
+        stop_id = s("stop_id").get.intern,
+        trip_id = s("trip_id").get.intern,
+        stop_sequence = s("stop_sequence").get.toInt,
+        arrival_time = s("arrival_time").get,
+        departure_time = s("departure_time").get,
+        shape_dist_traveled = s("shape_dist_traveled").flatMap{ _.trim match {
+          case "" => None //We can have a column, but no value, sad
+          case s => Some(s.toDouble)
+        }}
       )
     }
   }
 
+  override def getShapes = {
+    try {
+      for (f <- CsvParser.fromPath(dir + "/shapes.txt"))
+      yield {
+        (
+          f("shape_id").get.intern,
+          f("shape_pt_lat").get.toDouble,
+          f("shape_pt_lon").get.toDouble,
+          f("shape_pt_sequence").get.toInt
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
+    }
+  }
 
   override def getTrips = {
     for (t <- CsvParser.fromPath(dir + "/trips.txt"))
     yield {
-      TripRec(
-        trip_id = t("trip_id"),
-        service_id = t("service_id"),
-        route_id = t("route_id"),
+      Trip(
+        id = t("trip_id").get.intern,
+        service_id = t("service_id").get.intern,
+        route_id = t("route_id").get.intern,
+        shape_id = t("shape_id").map(_.intern),
         trip_headsign = t("trip_headsign"),
         stopTimes = Nil
       )
@@ -72,47 +115,58 @@ class GtfsFileReader(dir:String) extends GtfsReader {
 
 
   def getCalendar = {
-    for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
-    yield {
-      CalendarRec(
-        service_id = c("service_id"),
-        start_date = c("start_date"),
-        end_date = c("end_date"),
-        week = Array(
-          c("monday") == "1",
-          c("tuesday") == "1",
-          c("wednesday") == "1",
-          c("thursday") == "1",
-          c("friday") == "1",
-          c("saturday") == "1",
-          c("sunday") == "1"
+    try { //calendar can be empty if calendar_dates.txt is present
+      for (c <- CsvParser.fromPath(dir + "/calendar.txt"))
+      yield {
+        ServiceCalendar(
+          service_id = c("service_id").get.intern,
+          start_date = c("start_date").get,
+          end_date = c("end_date").get,
+          week = Array(
+            c("monday").get == "1",
+            c("tuesday").get == "1",
+            c("wednesday").get == "1",
+            c("thursday").get == "1",
+            c("friday").get == "1",
+            c("saturday").get == "1",
+            c("sunday").get == "1"
+          )
         )
-      )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 
-
   def getCalendarDates = {
-    for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
-    yield {
-      CalendarDateRec(
-        service_id = c("service_id"),
-        date = c("date"),
-        exception = if (c("exception_type") == "1") 'Add else 'Remove
-      )
+    try { //this file is optional
+      for (c <- CsvParser.fromPath(dir + "/calendar_dates.txt"))
+      yield {
+        ServiceException(
+          service_id = c("service_id").get.intern,
+          date = c("date").get,
+          exception = if (c("exception_type") == "1") 'Add else 'Remove
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 
 
   override def getFrequencies = {
-    for (f <- CsvParser.fromPath(dir + "/frequencies.txt"))
-    yield {
-      Frequency(
-        trip_id = f("trip_id"),
-        start_time = f("start_time"),
-        end_time = f("end_time"),
-        headway = f("headway_secs").toInt.seconds
-      )
+    try {
+      for (f <- CsvParser.fromPath(dir + "/frequencies.txt"))
+      yield {
+        Frequency(
+          trip_id = f("trip_id").get.intern,
+          start_time = f("start_time").get,
+          end_time = f("end_time").get,
+          headway = f("headway_secs").get.toInt.seconds
+        )
+      }
+    }catch {
+      case e: java.io.FileNotFoundException => Iterator.empty
     }
   }
 }

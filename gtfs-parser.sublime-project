@@ -1,0 +1,8 @@
+{
+  "folders":[{
+    "path":"/Users/eugene/projects/gtfs-parser",
+    "folder_exclude_patterns":[".idea", "target"]
+  },{
+    "path":"/Users/eugene/projects/gtfs-parser/target/External Libraries"
+  }]
+}

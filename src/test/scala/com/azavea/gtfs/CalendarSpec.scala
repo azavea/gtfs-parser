@@ -7,7 +7,7 @@ import data._
 
 class CalendarSpec extends FlatSpec with Matchers {
   val data = new GtfsTestReader().toGtfsData
-  val cal = new Calendar(data.calendar, data.calendarDates)
+  val cal = data.service.head
 
   "Calendar" should "return active services" in {
     val sunday = new LocalDate(2013,1,6)
@@ -16,14 +16,33 @@ class CalendarSpec extends FlatSpec with Matchers {
     monday.getDayOfWeek should equal (1)
     sunday.getDayOfWeek should equal (7)
 
-    cal.getServiceFor(monday) should contain ("SR1")
-    cal.getServiceFor(sunday) should not contain ("SR1")
+    cal.activeOn(monday) should equal (true)
+    cal.activeOn(sunday) should equal (false)
   }
 
   it should "consider calendar_dates.txt" in {
     //this date is an exception, S1 does not run on weekends
     val saturday = new LocalDate(2013,1,5)
     saturday.getDayOfWeek should equal (6)
-    cal.getServiceFor(saturday) should contain ("S1")
+    cal.activeOn(saturday) should equal (true)
+  }
+
+  
+  it should "filter philly rail by date" in {
+    val phillyRail = GtfsData.fromFile("data/philly_rail")
+    
+    import phillyRail.context._
+    
+    val airRoute = phillyRail.routes.filter(_.id == "AIR").head
+
+    val date = new LocalDate(2013,1,6)
+    //These are just trips with time offsets
+    val airTrips = airRoute.getTripsOn(date)
+
+    //This will give me list of lists of trips resolved to a DateTime
+    val timedTrips = airTrips.map(trip => trip(date))
+    
+    airTrips should not be empty
+    timedTrips should not be empty
   }
 }

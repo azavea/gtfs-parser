@@ -2,6 +2,9 @@ package com.azavea.gtfs
 
 import com.azavea.gtfs.data._
 import com.github.nscala_time.time.Imports._
+import geotrellis.vector._
+import geotrellis.slick._
+
 
 /**
  * User: eugene
@@ -11,10 +14,15 @@ class GtfsTestReader extends GtfsReader{
   implicit def seqToIterator[T](seq: Traversable[T]): Iterator[T] =
     seq.toIterator
 
+
+  override def getAgencies: Iterator[Agency] = List(
+    Agency(None, "THE", "http://", "EST")
+  )
+
   def getStops = List(
-    Stop("S1", "Stop 1", "First Stop", 0, 0),
-    Stop("S2", "Stop 1", "First Stop", 10, 10),
-    Stop("S3", "Stop 1", "First Stop", 10, 20)
+    Stop("S1", "Stop 1", None, 0, 0, Point(0,0).withSRID(0)),
+    Stop("S2", "Stop 2", None, 10, 10, Point(10,10).withSRID(0)),
+    Stop("S3", "Stop 3", Some("Stop"), 10, 20, Point(10,20).withSRID(0))
   )
 
   override def getRoutes = List(
@@ -22,17 +30,17 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getTrips = List(
-    TripRec("T1","SR1","R1","Go Home",Nil)
+    Trip("T1","SR1","R1",None ,Nil)
   )
 
   def getStopTimes = List(
-    StopTimeRec("S1","T1", 1, 0.seconds, 1.minute),
-    StopTimeRec("S2","T1", 2, 10.minutes, 11.minutes),
-    StopTimeRec("S3","T1", 3, 15.minutes, 16.minutes)
+    StopTime("S1","T1", 1, 0.seconds, 1.minute),
+    StopTime("S2","T1", 2, 10.minutes, 11.minutes),
+    StopTime("S3","T1", 3, 15.minutes, 16.minutes)
   )
 
   def getCalendar = List(
-    CalendarRec(
+    ServiceCalendar(
       service_id = "SR1",
       start_date = "20130101",
       end_date = "20140101",
@@ -41,10 +49,12 @@ class GtfsTestReader extends GtfsReader{
   )
 
   def getCalendarDates = List(
-    CalendarDateRec("S1", new LocalDate(2013,1,5), 'Add) //Saturday
+    ServiceException("SR1", new LocalDate(2013,1,5), 'Add) //Saturday
   )
 
   def getFrequencies = List(
     Frequency("T1", start_time = 10.hours, end_time = 10.hours + 13.minutes, headway = 300.seconds)
   )
+
+  def getShapes = Iterator.empty
 }

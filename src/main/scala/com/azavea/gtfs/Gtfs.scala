@@ -8,38 +8,25 @@ import com.github.nscala_time.time.Imports
 
 /**
  * Transit system specified by GTFS
+ * This class is going to be gone soon, repalced by some kind of DAO like interface into GtfsData
  */
-class Gtfs(reader: GtfsReader) extends GtfsData(reader) {
-  val cal = new Calendar(calendar, calendarDates)
-
-  def getTripsOn(dt: LocalDate): Seq[Trip] = {
-    for{
-      service <- cal.getServiceFor(dt)
-      generator <- tripsByService(service)
-      trip <- generator(dt)
-    } yield trip
-  }
-
+class Gtfs(data: GtfsData) {
   /** Maximum number of stops in a trip in the route */
   def maxStopsForRoute(route: RouteId):  Int =
-    tripsByRoute(route).maxBy(_.stopTimes.length).stopTimes.length
+    data.tripsByRoute(route).maxBy(_.stopTimes.length).stopTimes.length
 
   def maxStopsByRoute(): Seq[(RouteId, Int)] =
-    routes.map(r => r.route_id -> maxStopsForRoute(r.route_id))
+    data.routes.map(r => r.id -> maxStopsForRoute(r.id))
 
   def maxStopsByMode(): Seq[(RouteType, Int)] = {
-    routes
+    data.routes
       .groupBy(_.route_type)
       .mapValues{ routes =>
-        routes.map(r => maxStopsForRoute(r.route_id)).max
+        routes.map(r => maxStopsForRoute(r.id)).max
       }
       .toSeq
   }
 
-  def tripsForPeriod(from: LocalDate, to: LocalDate): Seq[Trip] = ???
+  def tripsForPeriod(from: LocalDate, to: LocalDate): Seq[ScheduledTrip] = ???
 }
 
-object Gtfs {
-  def fromFile(dir: String): Gtfs =
-    new Gtfs(new GtfsFileReader(dir))
-}
